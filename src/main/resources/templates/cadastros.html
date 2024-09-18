@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro</title>
+    <link rel="stylesheet" href="/css/estilos.css">
+</head>
+
+<body>
+
+    <div th:insert="~{fragments/navbar :: nav}"></div>
+    <div th:insert="~{fragments/navbarCadastros :: navCadastros}"></div>
+
+    <div th:if="${mensagem}" style="color: green;">
+        <p th:text="${mensagem}"></p>
+    </div>
+
+    <form class="container-geral">
+
+        <div class="container">
+
+            conteudo aqui
+        </div>
+
+    </form>
+
+</body>
+
+</html>
