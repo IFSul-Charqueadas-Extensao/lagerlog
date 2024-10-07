@@ -68,39 +68,38 @@ localhost:8080/
    ```
 
 ## Modificações e atualizações do código no GitHub via VS Code
-1. Abra o projeto no Visual Studio Code:
+1. Para realizar as alterações no código, abra o VS Code e acesse o diretório do projeto, posteriormente abra o proejo utilizando a linha de comando:
    ```bash
    code .
    ```
-2. Faça as modificações no código conforme necessário.
-3. Verifique o status das modificações:
+2. Após realizar e salvar as alterações, verifique o status das modificações:
    ```bash
    git status
    ```
-4. Adicione os arquivos modificados ao commit:
+3. Adicione os arquivos modificados ao commit:
    ```bash
    git add .
    ```
-5. Faça o commit das alterações:
+4. Faça o commit das alterações:
    ```bash
    git commit -m "Descrição das alterações"
    ```
-6. Enviar alterações para o GitHub:**
+5. Enviar alterações para o GitHub:
   ```bash
   git push origin main
   ```
 
-7. Buscar atualizações do repositório original:
+6. Buscar atualizações do repositório original:
   ```bash
   git fetch upstream
   ```
 
-8. Mesclar atualizações do repositório original:
+7. Mesclar atualizações do repositório original:
   ```bash
   git merge upstream/main
   ```
 
-9. IMPORTANTE - Necessário realizar o `Create Pull Request` via Navegador Web no GitHub
+8. IMPORTANTE - Necessário realizar o `Create Pull Request` via Navegador Web no GitHub
 - Acesse o GitHub e vá para o seu repositório forkeado;
 - Verifique se alterações que você fez e enviou via git push para sua branch no repositório forkeado estão corretas.
 - Na página inicial do seu repositório forkeado, se houver diferenças entre a sua branch e a branch principal do repositório original, o GitHub exibirá o botão `Contribute` logo no topo da página.
