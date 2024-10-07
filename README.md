@@ -4,8 +4,10 @@ Sistema de administração de vendas.
 Em resumo o sistema é capaz de realizar um relatório de vendas, administração de estoque, cadastrar produtos. 
 
 ## Requisitos
-* Java JDK 17
-* Maven ou extensões Spring Boot Dashboard para utilização em VS Code
+* Java JDK 17 ou superior
+* Maven
+* Git `https://git-scm.com/downloads/win`
+* Spring Boot Dashboard - extensão VS Code
  
 ## Rodando o projeto com Maven
 Instalando dependências
@@ -41,7 +43,7 @@ localhost:8080/
    ```
 5. Clone o repositório:
    ```bash
-   git clone https://github.com/seu-usuario/nome-do-repositorio.git
+   git clone https://github.com/SEU-USUARIO/lagerlog.git
    ```
 6. Entre no diretório clonado:
    ```bash
@@ -51,7 +53,7 @@ localhost:8080/
 ### 3. Configurar o Repositório Remoto "Upstream"
 1. Adicione o repositório original como um repositório remoto chamado `upstream`:
    ```bash
-   git remote add upstream https://github.com/usuario-original/nome-do-repositorio.git
+   git remote add upstream https://github.com/IFSul-Charqueadas-Extensao/lagerlog.git
    ```
 2. Verifique se o remote foi configurado corretamente:
    ```bash
@@ -59,10 +61,10 @@ localhost:8080/
    ```
    O comando deve retornar algo como:
    ```
-   origin    https://github.com/seu-usuario/nome-do-repositorio.git (fetch)
-   origin    https://github.com/seu-usuario/nome-do-repositorio.git (push)
-   upstream  https://github.com/usuario-original/nome-do-repositorio.git (fetch)
-   upstream  https://github.com/usuario-original/nome-do-repositorio.git (push)
+   origin    https://github.com/SEU-USUARIO/nome-do-repositorio.git (fetch)
+   origin    https://github.com/SEU-USUARIO/nome-do-repositorio.git (push)
+   upstream  https://github.com/IFSul-Charqueadas-Extensao/lagerlog.git (fetch)
+   upstream  https://github.com/IFSul-Charqueadas-Extensao/lagerlog.git (push)
    ```
 
 ## Modificações e atualizações do código no GitHub via VS Code
@@ -98,8 +100,18 @@ localhost:8080/
   git merge upstream/main
   ```
 
+9. IMPORTANTE - Necessário realizar o `Create Pull Request` via Navegador Web no GitHub
+- Acesse o GitHub e vá para o seu repositório forkeado;
+- Verifique se alterações que você fez e enviou via git push para sua branch no repositório forkeado estão corretas.
+- Na página inicial do seu repositório forkeado, se houver diferenças entre a sua branch e a branch principal do repositório original, o GitHub exibirá o botão `Contribute` logo no topo da página.
+- Verifique a comparação das branches. O GitHub automaticamente irá comparar a branch base (normalmente main ou master do repositório original) com a sua branch de comparação (a branch onde você fez as mudanças no repositório forkeado). Se as branches corretas não forem selecionadas automaticamente, você pode ajustá-las manualmente na página.
+- Preencha o título e a descrição referente as alterações realizadas.
+- Revise as mudanças.
+- Crie o Pull Request clicando no botão verde `Create pull request` e o Pull Request será enviado ao repositório original, e os mantenedores do projeto poderão revisar suas alterações, solicitar mudanças ou aceita-lá.
+- O acompanhamento do Pull Request (comentários, aprovações e status) pode ser realizado através da aba "Pull requests" tanto do repositório original quanto do seu repositório forkeado.
+
 ## Dicas Extras:
-- Sempre mantENHA O repositório forkado atualizado com o repositório original para evitar conflitos.
+- Sempre mantenha o repositório forkado atualizado com o repositório original para evitar conflitos.
 - Utilize as mensagens de commit para detalhar as modificações feitas.
 
 ## Autores
