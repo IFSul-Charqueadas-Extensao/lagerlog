@@ -73,7 +73,8 @@ public class CarrinhoController {
 
                // Buscando o produto pelo ID
                 Produto produtoEntity = produtoRepository.findById(produto.getId()).orElseThrow(() -> new RuntimeException("Produto não encontrado: " + produto.getId()));
-
+                produtoEntity.setEstoque(produtoEntity.getEstoque() -(produto.getQuantidade() * produtoEntity.getQuantidade()));// Ajustando estoque
+        
                 // Criando nova entrada no estoque
                 Estoque baixaEstoque = new Estoque();
                 baixaEstoque.setProduto(produtoEntity);

@@ -25,6 +25,7 @@ public class Produto {
     private double quantidade;
     private double preco;
     private int pontoSuprimento;
+    private double estoque;
     private int tickets;
     private String categoria;
     private int status;

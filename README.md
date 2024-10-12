@@ -4,26 +4,29 @@ Sistema de administração de vendas.
 Em resumo o sistema é capaz de realizar um relatório de vendas, administração de estoque, cadastrar produtos. 
 
 ## Requisitos
-* Java JDK 17 ou superior
-* Maven
-* Git `https://git-scm.com/downloads/win`
-* Spring Boot Dashboard - extensão VS Code
+* Java JDK 17 (com JAVA_HOME definido)
+* (Usando VSCode) Extensão Spring Boot Dashboard
+* Software Git para controle de versão e gerenciamento de código-fonte
  
-## Rodando o projeto com Maven
-Instalando dependências
+## Rodando o projeto (Desenvolvimento)
+Windows
 ```
-mvn clean install
-```
-
-Iniciando o servidor
-```
-java -jar target/lagerlog-0.0.1-SNAPSHOT.jar
+# Windows
+mvnw spring-boot:run
 ```
 
-O projeto será iniciado no localhost
+Linux
+```
+./mvnw spring-boot:run
+```
+
+O projeto estará rodando em
 ```
 localhost:8080/
 ```
+
+## Rodando o projeto (Deployment)
+Em construção.
 
 ## Como trabalhar com o repositório forkado do GitHub no VS Code
 
@@ -114,8 +117,9 @@ localhost:8080/
 - Utilize as mensagens de commit para detalhar as modificações feitas.
 
 ## Autores
-* Davison Azevedo
-* Rodrigo Moraes
-* Morgana Candido
-* Gabriel Baptista
 * Augusto Cruz
+* Davison Azevedo
+* Gabriel Baptista
+* Khaue Facklam
+* Morgana Candido
+* Rodrigo Moraes

@@ -47,10 +47,11 @@
             <th>Descrição</th>
             <th>Marca</th>
             <th>Fornecedor</th>
+            <th>QTD Venda</th>
             <th>Unidade</th>
-            <th>Quantidade</th>
             <th>Preço</th>
-            <th>Ponto de Suprimento</th>
+            <th>Ponto Suprimento</th>
+            <th>Estoque</th>
             <th>Tickets</th>
             <th>Categoria</th>
             <th>Status</th>
@@ -62,14 +63,14 @@
             <td th:text="${produto.descricao}"></td>
             <td th:text="${produto.marca}"></td>
             <td th:text="${produto.fornecedor}"></td>
-            <td th:text="${produto.unidade}"></td>
             <td th:text="${produto.quantidade}"></td>
+            <td th:text="${produto.unidade}"></td>
             <td th:text="${'R$' + produto.preco}"></td>
             <td th:text="${produto.pontoSuprimento}"></td>
+            <td th:text="${#numbers.formatDecimal(produto.estoque, 1, 'POINT', 1, 'POINT')}"></td>
             <td th:text="${produto.tickets}"></td>
             <td th:text="${produto.categoria}"></td>
-            <td th:text="${produto.status}"></td>
-            <!-- <td th:text="${produto.status ? 'Habilitado' : 'Desabilitado'}"></td> -->
+            <td th:text="${produto.status == 0 ? 'Desativado' : 'Ativo'}"></td>
             <td>
                 <button class="btnUpdate" th:data-id=${produto.id}>Editar</button>
                 <button class="btnDelete" th:data-id=${produto.id}>Excluir</button>

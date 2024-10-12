@@ -50,13 +50,17 @@
         <thead>
             <tr>
                 <th>Produto</th>
-                <th>Quantidade</th>
+                <th>Ponto Suprimento</th>
+                <th>Estoque</th>
+                <th>Status</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="item : ${estoqueAgrupado}">
-                <td th:text="${item.produto.descricao}">Produto</td>
-                <td th:text="${item.quantidade + ' ' + item.produto.unidade}">Quantidade</td>
+            <tr th:each="produto : ${produtos}">
+                <td th:text="${produto.descricao}"></td>
+                <td th:text="${#numbers.formatDecimal(produto.estoque, 1, 'POINT', 1, 'POINT') + ' ' + produto.unidade}"></td>
+                <td th:text="${#numbers.formatDecimal(produto.pontoSuprimento, 1, 'POINT', 1, 'POINT') + ' ' + produto.unidade}"></td>
+                <td th:text="${produto.status == 0 ? 'Desativado' : 'Ativo'}"></td>
             </tr>
         </tbody>
     </table>

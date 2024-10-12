@@ -13,6 +13,10 @@
 
     <div th:insert="~{fragments/navbar :: nav}"></div>
 
+    <div th:if="${mensagem}" style="color: red;">
+        <p th:text="${mensagem}"></p>
+    </div>
+
     <h2>Ajuste de Estoque</h2>
     <form action="/estoque/ajustar" method="post">
         
