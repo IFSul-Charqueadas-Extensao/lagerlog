@@ -2,8 +2,6 @@ package com.maltepuro.lagerlog.controller;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.maltepuro.lagerlog.model.Estoque;
-import com.maltepuro.lagerlog.model.ItemEstoqueAgrupado;
 import com.maltepuro.lagerlog.model.Produto;
 import com.maltepuro.lagerlog.repository.EstoqueRepository;
 import com.maltepuro.lagerlog.repository.ProdutoRepository;
@@ -31,20 +28,9 @@ public class EstoqueController {
 
     @GetMapping("/estoque")
     public String getEstoque(Model model) {
-        List<Estoque> estoque = estoqueRepository.findAll();
-        
-        Map<Produto, Double> quantidadePorProduto = estoque.stream()
-                .collect(Collectors.toMap(
-                        Estoque::getProduto,
-                        Estoque::getQuantidade,
-                        (quantidade1, quantidade2) -> quantidade1 + quantidade2
-                ));
-        
-        List<ItemEstoqueAgrupado> estoqueAgrupado = quantidadePorProduto.entrySet().stream()
-                .map(entry -> new ItemEstoqueAgrupado(entry.getKey(), entry.getValue()))
-                .collect(Collectors.toList());
-
-        model.addAttribute("estoqueAgrupado", estoqueAgrupado);
+        List<Produto> produto = produtoRepository.findAll();
+        Produto[] arrayProdutosEstoque = produto.toArray(new Produto[0]);
+        model.addAttribute("produtos", arrayProdutosEstoque);
         return "listarEstoque";
     }
 
@@ -74,12 +60,17 @@ public class EstoqueController {
         Produto produtoEntity = produtoRepository.findById(Long.parseLong(produto))
             .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
+        double estoqueAtual = produtoEntity.getEstoque();
+        double novaQuantidade = estoqueAtual + Integer.parseInt(quantidade);
+        produtoEntity.setEstoque(novaQuantidade); 
+
         e.setProduto(produtoEntity);
         e.setTipo("ENTRADA");
         e.setQuantidade(Double.parseDouble(quantidade));
         e.setObservacao(observacao);
         e.setDataCadastro(LocalDateTime.now());
         estoqueRepository.save(e);
+                
         System.out.println("Entrada cadastrada com sucesso!");
         redirectAttributes.addFlashAttribute("mensagem", "Entrada de estoque cadastrada com sucesso!");
         return "redirect:/estoque";
@@ -101,6 +92,18 @@ public class EstoqueController {
         Produto produtoEntity = produtoRepository.findById(Long.parseLong(produto))
             .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
+        double estoqueAtual = produtoEntity.getEstoque();
+        int qtdDeBaixa = Integer.parseInt(quantidade);
+        String descricaoProduto = produtoEntity.getDescricao();
+        String unidade = produtoEntity.getUnidade();
+        if(estoqueAtual < qtdDeBaixa){
+            String mensagem = "A operação não pôde ser concluída. O estoque do produto '" + descricaoProduto + "' é insuficiente para a quantidade de baixa solicitada. Estoque atual: " + estoqueAtual + " " + unidade + " .";
+            System.out.println(mensagem);
+            redirectAttributes.addFlashAttribute("mensagem", mensagem);
+            return "redirect:/estoque/ajustar";
+        } else {
+        produtoEntity.setEstoque(estoqueAtual - qtdDeBaixa); 
+
         e.setProduto(produtoEntity);
         e.setTipo("AJUSTE");
         e.setQuantidade(-Double.parseDouble(quantidade));
@@ -110,5 +113,9 @@ public class EstoqueController {
         System.out.println("Ajuste realizado com sucesso!");
         redirectAttributes.addFlashAttribute("mensagem", "Ajuste de estoque realizado com sucesso!");
         return "redirect:/estoque";
+
+        }
+        
+        
     }
 }

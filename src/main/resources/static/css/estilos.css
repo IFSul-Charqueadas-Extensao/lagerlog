@@ -69,15 +69,15 @@ body {
 
 .ticket {
     background-color: #748c14;  
-    width: 10%;
-    min-width: 100px;
-    min-height: 100px;
+    max-width: 10%;
+    max-height: 50%;
     margin: 5px;
+    padding: 10px;
     text-align: center; /* Centraliza o texto  */
-    padding: 10px; /* preenchimento interno */
+    
     /* Centraliza o conteúdo verticalmente */
     display: flex;
-    flex-wrap: wrap;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     cursor: pointer;
@@ -86,7 +86,7 @@ body {
 .ticket p {
     font-size: 24px;
     font-weight: bold;
-    width: 100%;
+    word-wrap: break-word;
 }
 
 .promocional{
@@ -177,6 +177,7 @@ body {
     margin: 4px 2px;
     cursor: pointer;
 }
+
 .nav-btn-cad {
     background-color: black;
     color: white;
@@ -203,17 +204,24 @@ body {
 
 #btnCarrinho{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+}
+
+.btnCarrinho{
+    margin: 10px;
+    height: 30px;
 }
 
 side {
     overflow-y: auto; /* Adiciona uma barra de rolagem vertical apenas quando necessário */
-    max-height: 80vh;
+    max-height: 90vh;
+    width: 15%;
     background-color: #a49a9c;
 }
 
 .headerCabecalho{
-    height: 30px;
+    height: 20px;
+    margin-top: 5px;
     font-weight: bold;
     font-size: larger;
     text-align: center;
@@ -224,19 +232,35 @@ side {
     background-color: #cac372;
     border: 2px solid #000000;
     margin-bottom: 2px;
+    height: 80px;
 }
 
-#btnCarrinho{
-    margin-bottom: 5px;
+.pSemEspaco{
+    font-weight: bold;
+    margin: 5px;
 }
 
 .quantidade{
-    font-weight: bold;
+    margin: 5px;
 }
 
-#buttonCarrinho{
+.buttonCarrinho{
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between;
+    justify-content: space-evenly;
     align-items: center;
+}
+
+div .qtdUnitaria, div .estoqueCar, div .qtdUnit{
+    display: none;
+}
+
+.estoqueBaixo{
+    color: orange;
+
+}
+
+.semEstoque{
+    color: rgba(255, 255, 255, 0.289);
+
 }

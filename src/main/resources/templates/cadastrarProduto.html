@@ -16,44 +16,44 @@
     <h2>Criar nova mercadoria</h2>
     <form action="/produto" method="post">
         <label for="descricao">Descrição: </label>
-        <input type="text" id="descricao" name="descricao" required>
+        <input type="text" id="descricao" name="descricao" required></br></br>
 
         <label for="marca">Marca: </label>
-        <input type="text" id="marca" name="marca" required>
+        <input type="text" id="marca" name="marca" required></br></br>
 
         <label for="fornecedor">Fornecedor: </label>
-        <input type="text" id="fornecedor" name="fornecedor" required>
+        <input type="text" id="fornecedor" name="fornecedor" required></br></br>
 
+        <label for="quantidade">Quantidade de Venda: </label>
+        <input type="number" id="quantidade" name="quantidade" required></br></br>
+        
         <label for="unidade">Unidade: </label>
-        <input type="text" id="unidade" name="unidade" placeholder="Copo" required>
-
-        <label for="quantidade">Quantidade: </label>
-        <input type="number" id="quantidade" name="quantidade" required>
+        <input type="text" id="unidade" name="unidade" required></br></br>
 
         <label for="preco">Preço: </label>
-        <input type="number" id="preco" name="preco" step="0.01" required>
+        <input type="number" id="preco" name="preco" step="0.01" required></br></br>
 
         <label for="pontoSuprimento">Ponto de Suprimento: </label>
-        <input type="number" id="pontoSuprimento" name="pontoSuprimento" required>
+        <input type="number" id="pontoSuprimento" name="pontoSuprimento" required></br></br>
 
         <label for="categoria">Categoria: </label>
         <select id="categoria" name="categoria" required>
             <option selected="selected" value="normal">Normal</option>
             <option value="promocao">Promoção</option>
-        </select>
+        </select></br></br>
 
         <label for="tickets">Tickets gerados: </label>
-        <input type="number" id="tickets" name="tickets" min="1" required>
+        <input type="number" id="tickets" name="tickets" min="1" required></br></br>
 
         <fieldset>
             <legend>Produto ativo?</legend>
             <label for="statusTrue">Sim </label>
             <!-- <input type="radio" name="status" id="statusTrue" value="true" checked> -->
-            <input type="radio" name="status" id="statusTrue" value="1" checked>
+            <input type="radio" name="status" id="statusTrue" value="1">
             <label for="statusFalse">Não </label>
             <!-- <input type="radio" name="status" id="statusFalse" value="false"> -->
             <input type="radio" name="status" id="statusFalse" value="0">
-        </fieldset>
+        </fieldset></br></br>
 
         <input type="submit" value="Criar">
     </form>

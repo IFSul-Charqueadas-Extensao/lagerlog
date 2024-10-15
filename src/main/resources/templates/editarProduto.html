@@ -19,44 +19,44 @@
         <input type="hidden" id="id" name="id" th:field="*{id}">
 
         <label for="descricao">Descrição: </label>
-        <input type="text" id="descricao" name="descricao" th:field="*{descricao}" required>
+        <input type="text" id="descricao" name="descricao" th:field="*{descricao}" required></br></br>
 
         <label for="marca">Marca: </label>
-        <input type="text" id="marca" name="marca" th:field="*{marca}" required>
+        <input type="text" id="marca" name="marca" th:field="*{marca}" required></br></br>
 
         <label for="fornecedor">Fornecedor: </label>
-        <input type="text" id="fornecedor" name="fornecedor" th:field="*{fornecedor}" required>
+        <input type="text" id="fornecedor" name="fornecedor" th:field="*{fornecedor}" required></br></br>
+
+        <label for="quantidade">Quantidade de Venda: </label>
+        <input type="number" id="quantidade" name="quantidade" th:field="*{quantidade}" required></br></br>
 
         <label for="unidade">Unidade: </label>
-        <input type="text" id="unidade" name="unidade" placeholder="Copo" th:field="*{unidade}" required>
-
-        <label for="quantidade">Quantidade: </label>
-        <input type="number" id="quantidade" name="quantidade" th:field="*{quantidade}" required>
+        <input type="text" id="unidade" name="unidade" placeholder="Copo" th:field="*{unidade}" required></br></br>
 
         <label for="preco">Preço: </label>
-        <input type="number" id="preco" name="preco" step="0.01" th:field="*{preco}" required>
+        <input type="number" id="preco" name="preco" step="0.01" th:field="*{preco}" required></br></br>
 
         <label for="pontoSuprimento">Ponto de Suprimento: </label>
-        <input type="number" id="pontoSuprimento" name="pontoSuprimento" th:field="*{pontoSuprimento}" required>
+        <input type="number" id="pontoSuprimento" name="pontoSuprimento" th:field="*{pontoSuprimento}" required></br></br>
 
         <label for="categoria">Categoria: </label>
         <select id="categoria" name="categoria" required>
             <option selected="selected" value="normal">Normal</option>
             <option value="promocao">Promoção</option>
-        </select>
+        </select></br></br>
 
         <label for="tickets">Tickets gerados: </label>
-        <input type="number" id="tickets" name="tickets" min="1" th:field="*{tickets}" required>
+        <input type="number" id="tickets" name="tickets" min="1" th:field="*{tickets}" required></br></br>
 
         <fieldset>
             <legend>Produto ativo?</legend>
             <label for="statusTrue">Sim </label>
             <!-- <input type="radio" name="status" id="statusTrue" value="true" checked> -->
-            <input type="radio" name="status" id="statusTrue" value="1" checked>
+            <input type="radio" name="status" id="statusTrue" th:field="*{status}" value="1" th:checked="${status == 1}">
             <label for="statusFalse">Não </label>
             <!-- <input type="radio" name="status" id="statusFalse" value="false"> -->
-            <input type="radio" name="status" id="statusFalse" value="0">
-        </fieldset>
+            <input type="radio" name="status" id="statusFalse" th:field="*{status}" value="0" th:checked="${status == 0}">
+        </fieldset></br></br>
 
         <input id="btnAtualizar" type="submit" value="Alterar">
     </form>

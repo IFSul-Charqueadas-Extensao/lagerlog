@@ -41,6 +41,7 @@ public class ProdutoController {
         p.setQuantidade(quantidade);
         p.setPreco(preco);
         p.setPontoSuprimento(pontoSuprimento);
+        p.setEstoque(0);//estoque inicializado com 'zero'
         p.setTickets(tickets);
         p.setCategoria(categoria);
         p.setStatus(status);

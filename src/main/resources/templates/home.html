@@ -21,10 +21,19 @@
 
         <div class="container-geral-tickets">
 
-            <div th:each="produto : ${produtosAtivos}" th:class="${produto.categoria} + ' ticket'"
+            <div th:each="produto : ${produtosAtivos}" th:class="'ticket ' + ${produto.categoria}"
                 th:id="${produto.id}">
-                <p th:text="${produto.descricao}" class="nomeProduto"></p>
-                <span>R$ <span th:text="${produto.preco}" class="precoProduto"></span></span>
+                <div><p th:text="${produto.descricao}" class="nomeProduto"></p></div>
+                <div> R$ 
+                    <span th:text="${produto.preco}" class="precoProduto"></span>
+                </div>
+                    
+                <div> E: 
+                    <span th:text="${#numbers.formatDecimal(produto.estoque, 1, 'POINT', 1, 'POINT')}" class="estoque"></span> 
+                    <span th:text="${produto.unidade}"></span>
+                    <span th:text="${produto.pontoSuprimento}" class="pontoSuprimento"></span>
+                </div>
+                <div><span th:text="${produto.quantidade}" class="qtdUnitaria"></div>
             </div>
 
         </div>
@@ -32,9 +41,9 @@
         <side>
             <div class="headerCabecalho centralizar">CARRINHO</div>
             <div id="total" class="headerCabecalho">R$ 0.00</div>
-            <div id="btnCarrinho" class="headerCabecalho">
-                <button id="btnLimpar">Limpar</button>
-                <button id="btnFinalizar">Finalizar Venda</button>
+            <div id="btnCarrinho">
+                <button id="btnLimpar" class="btnCarrinho">Limpar</button>
+                <button id="btnFinalizar" class="btnCarrinho">Finalizar Venda</button>
             </div>
             <div id="itensCarrinho"></div>
         </side>

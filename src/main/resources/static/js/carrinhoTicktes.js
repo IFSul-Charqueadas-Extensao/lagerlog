@@ -2,84 +2,136 @@ let precoTotal = 0;
 let produtosNoCarrinho = [];
 
 document.addEventListener("DOMContentLoaded", function () {
+    
 
     document.querySelectorAll('.ticket').forEach(function(ticket) {
+
+        var estoque = parseFloat(ticket.querySelector('.estoque').innerText);
+        var qtdVenda = parseFloat(ticket.querySelector('.qtdUnitaria').innerText);
+        var pontoSuprimento = parseFloat(ticket.querySelector('.pontoSuprimento').innerText);
+
+        if(estoque < qtdVenda){
+            ticket.classList.add("semEstoque");
+        } else if(estoque < pontoSuprimento){
+            ticket.classList.add("estoqueBaixo");
+        }   
+
         ticket.addEventListener('click', function() {
             var produtoId = ticket.id;
             var nomeProduto = ticket.querySelector('.nomeProduto').innerText;
+            var qtdUnit = ticket.querySelector('.qtdUnitaria').innerText;
+            var estoque = ticket.querySelector('.estoque').innerText;
             var precoProduto = parseFloat(ticket.querySelector('.precoProduto').innerText);
-    
+        
+
             var produtoExistente = document.querySelector('#itensCarrinho .detalhes-produto[data-produto="' + produtoId + '"]');
-            
+
+            var qtdUnitaria = parseFloat(qtdUnit);
+            var qtdEstoque = parseFloat(estoque);
+              
             if (produtoExistente) {
+
                 var quantidadeAtual = parseInt(produtoExistente.getAttribute('data-quantidade'));
-                quantidadeAtual++;
-                produtoExistente.setAttribute('data-quantidade', quantidadeAtual);
-                atualizarTextoQuantidade(produtoExistente, precoProduto, quantidadeAtual);
-            } else {
-                var carrinho = document.querySelector('#itensCarrinho');
-                var produto = document.createElement('div');
-                produto.classList.add('detalhes-produto');
-                produto.setAttribute('data-produto', produtoId);
-                produto.setAttribute('data-preco', precoProduto);
-                produto.setAttribute('data-quantidade', 1); // Inicializa a quantidade como 1
-    
-                var itemCarrinho = document.createElement('p');
-                itemCarrinho.textContent = nomeProduto + " R$ " + precoProduto;
-                produto.appendChild(itemCarrinho);
 
-                var quantidadeControle = document.createElement('div');
-                quantidadeControle.classList.add('quantidade-controle');
-
-                var diminuirBtn = document.createElement('button');
-                diminuirBtn.textContent = '-';
-                diminuirBtn.addEventListener('click', function() {
-                    var quantidadeAtual = parseInt(produto.getAttribute('data-quantidade'));
-                    if (quantidadeAtual > 1) {
-                        quantidadeAtual--;
-                        produto.setAttribute('data-quantidade', quantidadeAtual);
-                        produto.querySelector('.quantidade').textContent = "QTD: " + quantidadeAtual + " | R$ " + (quantidadeAtual * precoProduto).toFixed(2);
-                        var precoTotal = calcularPrecoTotal();
-                        document.querySelector('#total').textContent = "R$ " + precoTotal.toFixed(2);
-                    } else if (quantidadeAtual == 1){
-                        produto.remove();
-                        var precoTotal = calcularPrecoTotal();
-                        document.querySelector('#total').textContent = "R$ " + precoTotal.toFixed(2);
-                    }
-                });
-
-                var aumentarBtn = document.createElement('button');
-                aumentarBtn.textContent = '+';
-                aumentarBtn.addEventListener('click', function() {
-                    var quantidadeAtual = parseInt(produto.getAttribute('data-quantidade'));
+                if(quantidadeAtual * qtdUnitaria < qtdEstoque){
                     quantidadeAtual++;
-                    produto.setAttribute('data-quantidade', quantidadeAtual);
-                    produto.querySelector('.quantidade').textContent = "QTD: " + quantidadeAtual + " | R$ " + (quantidadeAtual * precoProduto).toFixed(2);
+                    produtoExistente.setAttribute('data-quantidade', quantidadeAtual);
+                    atualizarTextoQuantidade(produtoExistente, precoProduto, quantidadeAtual);
+                } else {
+                   alert("Produto em falta!");
+                }
+                
+            } else {
+
+                var qtdUnitaria2 = parseInt(ticket.querySelector('.qtdUnitaria').innerText);
+                var qtdEstoque2 = parseInt(ticket.querySelector('.estoque').innerText);
+
+
+
+                if(qtdUnitaria2 < qtdEstoque2){
+                    var carrinho = document.querySelector('#itensCarrinho');
+                    var produto = document.createElement('div');
+                    produto.classList.add('detalhes-produto');
+                    produto.setAttribute('data-produto', produtoId);
+                    produto.setAttribute('data-preco', precoProduto);
+                    produto.setAttribute('data-quantidade', 1); // Inicializa a quantidade como 1
+                    var itemCarrinho = document.createElement('p');
+                    itemCarrinho.setAttribute('class', "pSemEspaco");
+                    itemCarrinho.textContent = nomeProduto + " R$ " + precoProduto;
+                    produto.appendChild(itemCarrinho);
+                    var quantidadeControle = document.createElement('div');
+                    quantidadeControle.classList.add('quantidade-controle');
+
+                    var diminuirBtn = document.createElement('button');
+                    diminuirBtn.textContent = '-';
+                    diminuirBtn.addEventListener('click', function() {
+                        var quantidadeAtual = parseInt(produto.getAttribute('data-quantidade'));
+                        if (quantidadeAtual > 1) {
+                            quantidadeAtual--;
+                            produto.setAttribute('data-quantidade', quantidadeAtual);
+                            produto.querySelector('.quantidade').textContent = "Qtd.: " + quantidadeAtual + " | R$ " + (quantidadeAtual * precoProduto).toFixed(2);
+                            var precoTotal = calcularPrecoTotal();
+                            document.querySelector('#total').textContent = "R$ " + precoTotal.toFixed(2);
+                        } else if (quantidadeAtual == 1){
+                            produto.remove();
+                            var precoTotal = calcularPrecoTotal();
+                            document.querySelector('#total').textContent = "R$ " + precoTotal.toFixed(2);
+                        }
+                    });
+
+                    var aumentarBtn = document.createElement('button');
+                    aumentarBtn.textContent = '+';
+                    aumentarBtn.addEventListener('click', function() {
+                        var quantidadeAtual = parseInt(produto.getAttribute('data-quantidade'));
+                        var qtdUnitariaCar = parseFloat(produto.querySelector('.qtdUnit').innerText);
+                        var qtdEstoqueCar = parseFloat(produto.querySelector('.estoqueCar').innerText);
+                                            
+                        if(quantidadeAtual * qtdUnitariaCar < qtdEstoqueCar){
+                            quantidadeAtual++;
+                            produto.setAttribute('data-quantidade', quantidadeAtual);
+                            produto.querySelector('.quantidade').textContent = "Qtd.: " + quantidadeAtual + " | R$ " + (quantidadeAtual * precoProduto).toFixed(2);
+                            var precoTotal = calcularPrecoTotal();
+                            document.querySelector('#total').textContent = "R$ d" + precoTotal.toFixed(2);
+                        } else {
+                            alert("Produto em falta!");
+                        }    
+
+                    });
+
+                    var removerBtn = document.createElement('button');
+                    removerBtn.textContent = 'x';
+                    removerBtn.addEventListener('click', function() {
+                    produto.remove();
                     var precoTotal = calcularPrecoTotal();
                     document.querySelector('#total').textContent = "R$ " + precoTotal.toFixed(2);
-                });
+                    });
+                
+                    produto.appendChild(quantidadeControle);
+                    var divButton = document.createElement('div');
+                    divButton.setAttribute('class', "buttonCarrinho");
+                    quantidadeControle.appendChild(divButton);
+                    divButton.appendChild(diminuirBtn);
+                    divButton.appendChild(aumentarBtn);
+                    divButton.appendChild(removerBtn); 
+                    var quantidade = document.createElement('p');
+                    quantidade.classList.add('quantidade');
+                    quantidade.textContent = "Qtd.: 1" + " | R$ " + precoProduto.toFixed(2);
+                    quantidadeControle.appendChild(quantidade);
+                    
+                    var divQtdUnit = document.createElement('div');
+                    divQtdUnit.setAttribute("class", 'qtdUnit')
+                    divQtdUnit.textContent = qtdUnit;
+                    quantidadeControle.appendChild(divQtdUnit);
 
-                var removerBtn = document.createElement('button');
-                removerBtn.textContent = 'x';
-                removerBtn.addEventListener('click', function() {
-                produto.remove();
-                var precoTotal = calcularPrecoTotal();
-                document.querySelector('#total').textContent = "R$ " + precoTotal.toFixed(2);
-                });
+                    var divEstoque = document.createElement('div');
+                    divEstoque.setAttribute("class", 'estoqueCar');
+                    divEstoque.textContent = estoque;
+                    quantidadeControle.appendChild(divEstoque);
 
-                var quantidade = document.createElement('p');
-                quantidade.classList.add('quantidade');
-                quantidade.textContent = "QTD: 1" + " | R$ " + precoProduto.toFixed(2);
-                var divButton = document.createElement('div');
-                divButton.setAttribute('id', "buttonCarrinho");
-                quantidadeControle.appendChild(divButton);
-                divButton.appendChild(diminuirBtn);
-                divButton.appendChild(aumentarBtn);
-                divButton.appendChild(removerBtn);
-                quantidadeControle.appendChild(quantidade);
-                produto.appendChild(quantidadeControle);
-    
                 carrinho.appendChild(produto);
+                } else {
+                   alert("Produto em falta!");
+                }
             }
     
             var precoTotal = calcularPrecoTotal();
@@ -89,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     function atualizarTextoQuantidade(produto, precoProduto, quantidade) {
         var valorTotal = (precoProduto * quantidade).toFixed(2);
-        produto.querySelector('.quantidade').textContent = "QTD: " + quantidade + " | R$ " + valorTotal;
+        produto.querySelector('.quantidade').textContent = "Qtd.: " + quantidade + " | R$ " + valorTotal;
     }
 
     function calcularPrecoTotal() {
@@ -154,8 +206,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 })
                 .then(data => {
                     console.log('Venda finalizada com sucesso:', data);
-                    var btnLimpar = document.getElementById('btnLimpar');
-                    btnLimpar.click();
+                    alert('Venda finalizada com sucesso!')
+                    location.reload();
     
                 })
                 .catch(error => {
