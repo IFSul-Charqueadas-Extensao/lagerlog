@@ -50,8 +50,28 @@
 
     </div>
 
-
-
+    <!-- Modal de Seleção de Tipo de Venda -->
+    <div id="modalTipoVenda" class="modal">
+        <div class="modal-content">
+            <span class="close" id="modalClose">&times;</span>
+            <h2>Selecione o Tipo de Venda</h2>
+            <form id="tipoVendaForm">
+                <label>
+                    <input type="radio" name="tipoVenda" value="pix"> PIX
+                </label><br><br>
+                <label>
+                    <input type="radio" name="tipoVenda" value="dinheiro"> Dinheiro
+                </label><br><br>
+                <label>
+                    <input type="radio" name="tipoVenda" value="debito"> Débito
+                </label><br><br>
+                <label>
+                    <input type="radio" name="tipoVenda" value="credito"> Crédito
+                </label><br><br>
+                <button type="button" id="btnConfirmarVenda">Confirmar Venda</button>
+            </form>
+        </div>
+    </div>
 
 </body>
 

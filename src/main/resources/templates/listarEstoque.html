@@ -25,6 +25,14 @@
         tr:hover {
             background-color: #f2f2f2;
         }
+
+        .baixo-estoque {
+            background-color: #ffcccb;
+        }
+
+        .sem-estoque-venda{
+            background-color: #e72e2b;
+        }
     </style>
     <link rel="stylesheet" href="/css/estilos.css">
     <script src="/js/listarUsuario.js"></script>
@@ -50,13 +58,15 @@
         <thead>
             <tr>
                 <th>Produto</th>
-                <th>Ponto Suprimento</th>
                 <th>Estoque</th>
+                <th>Ponto Suprimento</th>
                 <th>Status</th>
             </tr>
         </thead>
         <tbody>
-            <tr th:each="produto : ${produtos}">
+            <tr th:each="produto : ${produtos}"
+                th:classappend="(${produto.estoque < produto.pontoSuprimento} ? 
+                (${produto.estoque < produto.quantidade} ? 'sem-estoque-venda' : 'baixo-estoque') : '')">
                 <td th:text="${produto.descricao}"></td>
                 <td th:text="${#numbers.formatDecimal(produto.estoque, 1, 'POINT', 1, 'POINT') + ' ' + produto.unidade}"></td>
                 <td th:text="${#numbers.formatDecimal(produto.pontoSuprimento, 1, 'POINT', 1, 'POINT') + ' ' + produto.unidade}"></td>

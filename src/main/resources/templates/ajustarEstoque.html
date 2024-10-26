@@ -17,7 +17,7 @@
         <p th:text="${mensagem}"></p>
     </div>
 
-    <h2>Ajuste de Estoque</h2>
+    <h2>Ajuste de Estoque (Baixa)</h2>
     <form action="/estoque/ajustar" method="post">
         
         <label for="produto">Produto:</label>
@@ -33,7 +33,7 @@
         <input type="text" id="unidadeCadastro" name="unidadeCasdastro" readonly required><br><br>
 
         <label for="quantidade">Quantidade:</label>
-        <input type="text" id="quantidade" name="quantidade" required><br><br>
+        <input type="number" id="quantidade" name="quantidade" step="0.01" required><br><br>
         
         <label for="observacao">Observação:</label>
         <input type="text" id="observacao" name="observacao" required><br><br>

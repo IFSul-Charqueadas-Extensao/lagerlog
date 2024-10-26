@@ -8,6 +8,7 @@ import com.maltepuro.lagerlog.model.ProdutosVendidosId;
 import com.maltepuro.lagerlog.model.Estoque;
 import com.maltepuro.lagerlog.model.Produto;
 import com.maltepuro.lagerlog.model.Venda;
+import com.maltepuro.lagerlog.model.VendaRequest;
 import com.maltepuro.lagerlog.repository.EstoqueRepository;
 import com.maltepuro.lagerlog.repository.ProdutosVendidosRepository;
 import com.maltepuro.lagerlog.repository.VendaRepository;
@@ -39,55 +40,59 @@ public class CarrinhoController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
+    public CarrinhoController(VendaRepository vendaRepository, ProdutoRepository produtoRepository) {
+        this.vendaRepository = vendaRepository;
+        this.produtoRepository = produtoRepository;
+    }
+
     @PostMapping("/finalizar")
-    public ResponseEntity<String> finalizarVenda(@RequestBody List<Carrinho> produtos) {
-        System.out.println("Recebido " + produtos.size() + " produtos.");
+    public ResponseEntity<String> finalizarVenda(@RequestBody VendaRequest request) {
+            
+        List<Carrinho> produtos = request.getCarrinho();
+        String modoPagamento = request.getModoPagamento().toUpperCase();
+
+        if (produtos == null || produtos.isEmpty()) {
+            return ResponseEntity.badRequest().body("Carrinho vazio.");
+        }
+
         try {
             BigDecimal valorTotal = calcularValorTotal(produtos);
 
             Venda venda = new Venda();
-            // LocalDate dataAtual = LocalDate.now();
-            // venda.setDataVenda(Date.valueOf(dataAtual));
-            LocalDateTime dataHoraAtual = LocalDateTime.now();
-            venda.setDataVenda(Timestamp.valueOf(dataHoraAtual));
+            venda.setDataVenda(Timestamp.valueOf(LocalDateTime.now()));
             venda.setValorVenda(valorTotal.doubleValue());
             venda.setCodUsuario(1L); // teste com usuário com ID 1
+            venda.setModoPagamento(modoPagamento);
             vendaRepository.save(venda);
 
             Long codVenda = venda.getId();
-            System.out.println("Venda salva com ID: " + codVenda);
-            
             for (Carrinho produto : produtos) {
-                // Criando a chave composta
                 ProdutosVendidosId produtosVendidosId = new ProdutosVendidosId();
-                produtosVendidosId.setCodVenda(codVenda); // Definindo o código da venda
-                produtosVendidosId.setCodProduto(produto.getId()); // Definindo o código do produto
-            
-                // Criando a entidade ProdutosVendidos
+                produtosVendidosId.setCodVenda(codVenda);
+                produtosVendidosId.setCodProduto(produto.getId());
+                
                 ProdutosVendidos produtosVendidos = new ProdutosVendidos();
-                produtosVendidos.setId(produtosVendidosId); // Definindo a chave composta
-                produtosVendidos.setQuantidade(produto.getQuantidade()); // Definindo a quantidade do produto
-            
-                // Salvando no repositório
+                produtosVendidos.setId(produtosVendidosId);
+                produtosVendidos.setQuantidade(produto.getQuantidade());
                 produtosVendidosRepository.save(produtosVendidos);
 
-               // Buscando o produto pelo ID
-                Produto produtoEntity = produtoRepository.findById(produto.getId()).orElseThrow(() -> new RuntimeException("Produto não encontrado: " + produto.getId()));
-                produtoEntity.setEstoque(produtoEntity.getEstoque() -(produto.getQuantidade() * produtoEntity.getQuantidade()));// Ajustando estoque
-        
-                // Criando nova entrada no estoque
+                Produto produtoEntity = produtoRepository.findById(produto.getId())
+                        .orElseThrow(() -> new RuntimeException("Produto não encontrado: " + produto.getId()));
+                
+                // Ajustando estoque
+                produtoEntity.setEstoque(produtoEntity.getEstoque() - produto.getQuantidade());
                 Estoque baixaEstoque = new Estoque();
                 baixaEstoque.setProduto(produtoEntity);
                 baixaEstoque.setTipo("VENDA");
                 baixaEstoque.setQuantidade(-produto.getQuantidade());
                 baixaEstoque.setDataCadastro(LocalDateTime.now());
-                baixaEstoque.setObservacao("Venda " + codVenda);
+                baixaEstoque.setObservacao("VENDA " + codVenda);
                 estoqueRepository.save(baixaEstoque);
             }
 
             return ResponseEntity.ok("Venda finalizada com sucesso!");
 
-        } catch (Exception e) {
+        } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body("Erro ao finalizar venda: " + e.getMessage());
         }
     }

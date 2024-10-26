@@ -166,61 +166,82 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
 
-    document.getElementById('btnFinalizar').addEventListener('click', function(){
-
+    document.getElementById('btnFinalizar').addEventListener('click', function() {
         var itensCarrinho = document.getElementById('itensCarrinho');
         var produtos = itensCarrinho.querySelectorAll('.detalhes-produto');
         console.log(produtos.length);
 
         if(produtos.length > 0){
-            if (confirm('Deseja realmente finalizar a venda?')) {
-            
-                var carrinho = [];
-    
-                produtos.forEach(function (produto) {
-                    var idProduto = produto.getAttribute('data-produto');
-                    var precoProduto = produto.getAttribute('data-preco');
-                    var quantidadeProduto = produto.getAttribute('data-quantidade');
-    
-                    carrinho.push({
-                        id: idProduto,
-                        preco: precoProduto,
-                        quantidade: quantidadeProduto
-                    });
-                });
-    
-                var url = 'http://localhost:8080/venda/finalizar';
-    
-                fetch(url, {
-                    method: 'POST',
-                    headers:{
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify(carrinho)
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error('A resposta da rede não foi ok ' + response.statusText);
-                    }
-                    return response.text();
-                })
-                .then(data => {
-                    console.log('Venda finalizada com sucesso:', data);
-                    alert('Venda finalizada com sucesso!')
-                    location.reload();
-    
-                })
-                .catch(error => {
-                    console.error('Houve um problema com a operação fetch:', error);
-                });
-            } else {
-                alert('Venda não finalizada.');
-            }
+            document.getElementById('modalTipoVenda').style.display = 'block';
         } else {
             alert('Carrinho sem produtos.');
         }
     });
 
-    
+    document.getElementById('modalClose').addEventListener('click', function() {
+        document.getElementById('modalTipoVenda').style.display = 'none';
+    });
 
+    document.getElementById('btnConfirmarVenda').addEventListener('click', function() {
+        var modoPagamento  = document.querySelector('input[name="tipoVenda"]:checked');
+
+        if (modoPagamento ) {
+            var itensCarrinho = document.getElementById('itensCarrinho');
+            var produtos = itensCarrinho.querySelectorAll('.detalhes-produto');
+            var carrinho = [];
+
+            produtos.forEach(function (produto) {
+                var idProduto = produto.getAttribute('data-produto');
+                var precoProduto = produto.getAttribute('data-preco');
+                var quantidadeProduto = produto.getAttribute('data-quantidade');
+
+                carrinho.push({
+                    id: idProduto,
+                    preco: precoProduto,
+                    quantidade: quantidadeProduto
+                });
+            });
+
+            var url = 'http://localhost:8080/venda/finalizar';
+
+            // var corpoRequisicao = { carrinho: carrinho, modoPagamento: modoPagamento.value };
+            // console.log('Corpo da requisição:', JSON.stringify(corpoRequisicao));
+
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ carrinho: carrinho, modoPagamento : modoPagamento.value })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('A resposta da rede não foi ok ' + response.statusText);
+                }
+                return response.text();
+            })
+            .then(data => {
+                console.log('Venda finalizada com sucesso:', data);
+                alert('Venda finalizada com sucesso!');
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Houve um problema com a operação fetch:', error);
+            });
+
+            // Fecha o modal após a confirmação
+            document.getElementById('modalTipoVenda').style.display = 'none';
+        } else {
+            alert('Por favor, selecione um tipo de venda.');
+        }
+    });
+
+    // Fecha o modal se o usuário clicar fora dele
+    window.onclick = function(event) {
+        const modal = document.getElementById('modalTipoVenda');
+        if (event.target === modal) {
+            modal.style.display = 'none';
+        }
+    };
+    
 });

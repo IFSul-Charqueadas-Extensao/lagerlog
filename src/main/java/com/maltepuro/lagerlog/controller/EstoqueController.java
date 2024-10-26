@@ -60,13 +60,23 @@ public class EstoqueController {
         Produto produtoEntity = produtoRepository.findById(Long.parseLong(produto))
             .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
+        String unidade = produtoEntity.getUnidade();
+        double qtdDeCadastro;
+
+        if(unidade.equals("UN")){
+            double quantidadeDouble = Double.parseDouble(quantidade);
+            qtdDeCadastro = Math.round(quantidadeDouble);
+        } else {
+            qtdDeCadastro = Double.parseDouble(quantidade);
+        }
+
         double estoqueAtual = produtoEntity.getEstoque();
-        double novaQuantidade = estoqueAtual + Integer.parseInt(quantidade);
+        double novaQuantidade = estoqueAtual + qtdDeCadastro;
         produtoEntity.setEstoque(novaQuantidade); 
 
         e.setProduto(produtoEntity);
         e.setTipo("ENTRADA");
-        e.setQuantidade(Double.parseDouble(quantidade));
+        e.setQuantidade(qtdDeCadastro);
         e.setObservacao(observacao);
         e.setDataCadastro(LocalDateTime.now());
         estoqueRepository.save(e);
@@ -93,15 +103,25 @@ public class EstoqueController {
             .orElseThrow(() -> new RuntimeException("Produto não encontrado"));
 
         double estoqueAtual = produtoEntity.getEstoque();
-        int qtdDeBaixa = Integer.parseInt(quantidade);
         String descricaoProduto = produtoEntity.getDescricao();
         String unidade = produtoEntity.getUnidade();
+        double qtdDeBaixa;
+
+        if(unidade.equals("UN")){
+            double quantidadeDouble = Double.parseDouble(quantidade);
+            qtdDeBaixa = Math.round(quantidadeDouble);
+        } else {
+            qtdDeBaixa = Double.parseDouble(quantidade);
+        }
+
         if(estoqueAtual < qtdDeBaixa){
             String mensagem = "A operação não pôde ser concluída. O estoque do produto '" + descricaoProduto + "' é insuficiente para a quantidade de baixa solicitada. Estoque atual: " + estoqueAtual + " " + unidade + " .";
             System.out.println(mensagem);
             redirectAttributes.addFlashAttribute("mensagem", mensagem);
             return "redirect:/estoque/ajustar";
         } else {
+        
+        
         produtoEntity.setEstoque(estoqueAtual - qtdDeBaixa); 
 
         e.setProduto(produtoEntity);
