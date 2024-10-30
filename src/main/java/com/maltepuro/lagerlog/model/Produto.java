@@ -24,7 +24,7 @@ public class Produto {
     private String unidade;
     private double quantidade;
     private double preco;
-    private int pontoSuprimento;
+    private double pontoSuprimento;
     private double estoque;
     private int tickets;
     private String categoria;

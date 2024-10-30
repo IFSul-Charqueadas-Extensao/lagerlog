@@ -26,5 +26,7 @@ public class Venda {
     private Timestamp dataVenda;
     @Column(name = "valor_total")
     private double valorVenda;
-
+    @Column(name = "modo_pagamento")
+    private String modoPagamento;
+    
 }

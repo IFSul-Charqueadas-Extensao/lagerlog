@@ -1,3 +1,4 @@
+//CARREGAMENTO DA UNIDADE DE ESTOQUE PARA "ENTRADA EM ESTOQUE" E "AJUSTE"
 document.addEventListener("DOMContentLoaded", function() {
     function atualizarUnidade() {
         var select = document.getElementById("produto");

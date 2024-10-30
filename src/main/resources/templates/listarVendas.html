@@ -45,6 +45,7 @@
                 <th>N° Venda</th>
                 <th>Data de Venda</th>
                 <th>Valor Total</th>
+                <th>Modo de Pagamento</th>
             </tr>
         </thead>
         <tbody>
@@ -52,6 +53,7 @@
                 <td th:text="${venda.id}"></td>
                 <td th:text="${#dates.format(venda.dataVenda, 'dd/MM/yyyy HH:mm:ss')}"></td>
                 <td th:text="${venda.valorVenda}"></td>
+                <td th:text="${venda.modoPagamento}"></td>
             </tr>
         </tbody>
     </table>
