@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tickets</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #e0e0e0;
+            margin: 0;
+            padding: 0;
+        }
+
+        .header {
+            background-color: #000;
+            color: white;
+            padding: 10px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .header h1 {
+            margin: 0;
+            padding: 0;
+        }
+
+        .menu {
+            display: flex;
+            gap: 10px;
+        }
+
+        .menu-button {
+            background-color: #FFD600;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .ticket-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+            padding: 20px;
+        }
+
+        .ticket {
+            padding: 20px;
+            text-align: center;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+
+        .ticket[data-price="12"] {
+            background-color: #d56fdf;
+        }
+
+        .ticket[data-price="13"] {
+            background-color: #ddc390;
+        }
+
+        .ticket[data-price="14"] {
+            background-color: #e17777;
+        }
+
+        .ticket[data-price="15"] {
+            background-color: #d5dc7c;
+        }
+
+        .ticket[data-price="16"] {
+            background-color: #77a5e1;
+        }
+
+        .ticket[data-price="18"] {
+            background-color: #87e177;
+        }
+
+        .ticket[data-price="22"] {
+            background-color: #fe7e4f;
+        }
+
+        .ticket[data-price="25"] {
+            background-color: #f3fc01;
+        }
+
+        .ticket[data-price="35"],
+        .ticket[data-price="Água"],
+        .ticket[data-price="Refrigerante"] {
+            background-color: #ffffff;
+            color: #000;
+        }
+
+        .cart {
+            background-color: #fff;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            width: 250px;
+            margin-left: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background-color: #d3d3d3;
+            padding: 30px;
+            border-radius: 8px;
+            width: 300px;
+            text-align: center;
+        }
+
+        .confirmar-button,
+        .cancelar-button {
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 1em;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .confirmar-button {
+            background-color: #FFD600;
+        }
+
+        .cancelar-button {
+            background-color: #FF5A5A;
+        }
+
+        #controles-quantidade {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        #quantidade {
+            font-size: 1.5em;
+            font-weight: bold;
+        }
+
+        #itens-carrinho {
+            display: block;
+            /* Deixei em block pra garantir que os itens ocupem a largura inteira e fiquem empilhados */
+            padding: 0;
+            margin: 0;
+        }
+
+        #itens-carrinho div {
+            margin-bottom: 10px;
+            /* Espaçamento entre os itens do carrinho */
+            padding: 5px;
+            background-color: #f1f1f1;
+            border-radius: 5px;
+            font-size: 1em;
+            font-weight: bold;
+            color: #333;
+        }
+
+        /* Nova regra para empilhar as opções do modal */
+        .modal-content label {
+            display: block;
+            margin-bottom: 10px;
+            font-size: 1.1em;
+            text-align: left;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="header">
+        <h1>Quadro de Tickets</h1>
+        <div class="menu">
+            <button class="menu-button">Tickets</button>
+            <button class="menu-button">Estoque</button>
+            <button class="menu-button">Caixa</button>
+            <button class="menu-button">Cadastro</button>
+        </div>
+    </div>
+
+    <div style="display: flex; padding: 20px;">
+        <div class="ticket-grid">
+            <div class="ticket" data-price="12">12 R$</div>
+            <div class="ticket" data-price="13">13 R$</div>
+            <div class="ticket" data-price="14">14 R$</div>
+            <div class="ticket" data-price="15">15 R$</div>
+            <div class="ticket" data-price="16">16 R$</div>
+            <div class="ticket" data-price="18">18 R$</div>
+            <div class="ticket" data-price="22">22 R$</div>
+            <div class="ticket" data-price="25">25 R$</div>
+            <div class="ticket" data-price="Água">Água</div>
+            <div class="ticket" data-price="Refrigerante">Refrigerante</div>
+            <div class="ticket" data-price="35">35 R$</div>
+        </div>
+
+        <div class="cart">
+            <h2>Compra:</h2>
+            <div id="itens-carrinho">Nenhum item no carrinho.</div>
+            <button class="confirmar-button">Confirmar</button>
+            <button class="cancelar-button">Cancelar</button>
+        </div>
+    </div>
+
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <h2 id="preco-bebida">12 R$</h2>
+            <div>
+                <label>
+                    <input type="radio" name="bebida" value="Lager Coruja" style="margin-right: 5px;"> Lager Coruja
+                </label>
+                <br>
+                <label>
+                    <input type="radio" name="bebida" value="Outro chop de 12" style="margin-right: 5px;"> Outro chop de
+                    12
+                </label>
+                <label>
+                    <input type="radio" name="bebida" value="Pilsen" style="margin-right: 5px;"> Pilsen
+                </label>
+            </div>
+            <div id="controles-quantidade">
+                <button class="button" id="diminuir">-</button>
+                <span id="quantidade">3</span>
+                <button class="button" id="aumentar">+</button>
+            </div>
+            <button class="confirmar-button" id="confirmar">Confirmar</button>
+            <button class="cancelar-button" id="cancelar">Cancelar</button>
+        </div>
+    </div>
+
+    <script>
+        const tickets = document.querySelectorAll('.ticket');
+        const modal = document.getElementById('modal');
+        const precoBebidaElement = document.getElementById('preco-bebida');
+        const quantidadeElement = document.getElementById('quantidade');
+        const itensCarrinho = document.getElementById('itens-carrinho');
+        let quantidade = 1;
+
+        quantidadeElement.textContent = quantidade; // Inicializa a quantidade no elemento
+
+        // Garantindo que o modal inicie invisível ao carregar a página
+        window.onload = function () {
+            modal.style.display = 'none'; // Esconde o modal logo ao carregar
+        }
+
+        tickets.forEach(ticket => {
+            ticket.addEventListener('click', () => {
+                const preco = ticket.getAttribute('data-price');
+                precoBebidaElement.textContent = preco; // Altera o preço da bebida no modal
+                quantidade = 1; // Zera a quantidade sempre que um novo ticket for selecionado
+                quantidadeElement.textContent = quantidade; // Atualiza a quantidade no modal
+                modal.style.display = 'flex'; // Exibe o modal
+            });
+        });
+
+        // Aumentar quantidade
+        document.getElementById('aumentar').addEventListener('click', () => {
+            quantidade++;
+            quantidadeElement.textContent = quantidade;
+        });
+
+        // Diminuir quantidade
+        document.getElementById('diminuir').addEventListener('click', () => {
+            if (quantidade > 1) {
+                quantidade--;
+                quantidadeElement.textContent = quantidade;
+            }
+        });
+
+        // Confirmar
+        document.getElementById('confirmar').addEventListener('click', () => {
+            const bebidaSelecionada = document.querySelector('input[name="bebida"]:checked');
+            if (bebidaSelecionada) {
+                const item = document.createElement('div');
+                item.textContent = `${bebidaSelecionada.value} - Quantidade: ${quantidade}`;
+                itensCarrinho.appendChild(item);
+                modal.style.display = 'none'; // Fecha o modal
+            }
+        });
+
+        // Cancela a operação
+        document.getElementById('cancelar').addEventListener('click', () => {
+            modal.style.display = 'none'; // Fecha o modal
+        });
+    </script>
+
+</body>
+
+</html>
