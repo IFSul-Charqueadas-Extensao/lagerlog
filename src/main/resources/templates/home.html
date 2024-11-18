@@ -2,43 +2,45 @@
 <html lang="pt-br">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tickets</title>
-    <link rel="stylesheet" href="/css/estilos.css">
-    <script src="/js/carrinhoTicktes.js"></script>
+    <meta charset="UTF-8"> <!-- Define o conjunto de caracteres para UTF-8 (incluindo caracteres especiais como acentos) -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Torna o site responsivo para diferentes tamanhos de tela -->
+    <title>Tickets</title> <!-- Define o título da página -->
+    <link rel="stylesheet" href="/css/estilos.css"> <!-- Conecta o arquivo CSS de estilo -->
+    <script src="/js/carrinhoTicktes.js" defer></script> <!-- Conecta o arquivo JavaScript para funcionalidades do carrinho -->
 </head>
 
 <body>
 
+    <!-- Aqui estamos incluindo um fragmento de código que provavelmente é o menu de navegação (navbar) -->
     <div th:insert="~{fragments/navbar :: nav}"></div>
 
+    <!-- Barra de título do quadro de tickets -->
     <div class="title-bar">
-        <div class="centralizar">Quadro de tickets</div>
+        <div class="centralizar">Quadro de tickets</div> <!-- Centraliza o título "Quadro de tickets" -->
     </div>
 
-    <div class="container-quadro-tickes">
+    <div id="filtroPrecosContainer"></div>
 
-        <div class="container-geral-tickets">
-
-            <div th:each="produto : ${produtosAtivos}" th:class="'ticket ' + ${produto.categoria}"
-                th:id="${produto.id}">
-                <div><p th:text="${produto.descricao}" class="nomeProduto"></p></div>
-                <div> R$ 
-                    <span th:text="${produto.preco}" class="precoProduto"></span>
-                </div>
-                    
-                <div> E: 
-                    <span th:text="${#numbers.formatDecimal(produto.estoque, 1, 'POINT', 1, 'POINT')}" class="estoque"></span> 
-                    <span th:text="${produto.unidade}"></span>
-                    <span th:text="${produto.pontoSuprimento}" class="pontoSuprimento"></span>
-                </div>
-                <div><span th:text="${produto.quantidade}" class="qtdUnitaria"></div>
+    <!-- Modal para exibir os produtos cadastrados -->
+    <div id="modalProdutos" class="modal">
+        <div class="modal-content">
+            <span class="close" id="modalProdutosClose">&times;</span>
+            <h2>Produtos Disponíveis</h2>
+            <div class="container-geral-tickets" id="produtosModalContainer">
+                <!-- Produtos serão inseridos aqui dinamicamente -->
             </div>
-
         </div>
+    </div>
 
-        <side>
+    <!-- Container principal que vai conter todos os tickets -->
+    <div class="container-quadro-tickes">
+        <!-- Container de Botões -->
+        <div class="container-geral-tickets" id="produtosContainer">
+            <!-- Os botões e produtos serão carregados aqui -->
+        </div>
+    
+        <!-- Carrinho à direita -->
+        <side class="side">
             <div class="headerCabecalho centralizar">CARRINHO</div>
             <div id="total" class="headerCabecalho">R$ 0.00</div>
             <div id="btnCarrinho">
@@ -47,13 +49,12 @@
             </div>
             <div id="itensCarrinho"></div>
         </side>
-
     </div>
 
-    <!-- Modal de Seleção de Tipo de Venda -->
+    <!-- Modal para seleção do tipo de venda (ex: PIX, Dinheiro, etc.) -->
     <div id="modalTipoVenda" class="modal">
         <div class="modal-content">
-            <span class="close" id="modalClose">&times;</span>
+            <span class="close" id="modalClose">&times;</span> <!-- Fechar o modal -->
             <h2>Selecione o Tipo de Venda</h2>
             <form id="tipoVendaForm">
                 <label>
@@ -68,7 +69,7 @@
                 <label>
                     <input type="radio" name="tipoVenda" value="credito"> Crédito
                 </label><br><br>
-                <button type="button" id="btnConfirmarVenda">Confirmar Venda</button>
+                <button type="button" id="btnConfirmarVenda">Confirmar Venda</button> <!-- Botão para confirmar a venda -->
             </form>
         </div>
     </div>

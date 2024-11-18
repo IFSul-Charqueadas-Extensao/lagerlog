@@ -41,7 +41,7 @@ public class ProdutoController {
         p.setQuantidade(quantidade);
         p.setPreco(preco);
         p.setPontoSuprimento(pontoSuprimento);
-        p.setEstoque(0);//estoque inicializado com 'zero'
+        p.setEstoque(0);// estoque inicializado com 'zero'
         p.setTickets(tickets);
         p.setCategoria(categoria);
         p.setStatus(status);
@@ -52,15 +52,22 @@ public class ProdutoController {
     }
 
     @GetMapping("/listar")
-    public String listar(Model model){
+    public String listar(Model model) {
         List<Produto> produtos = produtoRepository.findAll();
         Produto[] arrayProdutos = produtos.toArray(new Produto[0]);
         model.addAttribute("listaProdutos", arrayProdutos);
         return "listarProdutos";
     }
 
+    // Novo endpoint para retornar os produtos em formato JSON
+    @GetMapping("/listarProdutos")
+    @ResponseBody
+    public List<Produto> listarProdutos() {
+        return produtoRepository.findAll();
+    }
+
     @PutMapping("/alterar")
-    public ResponseEntity<Void> alterar(@RequestBody Produto produto){
+    public ResponseEntity<Void> alterar(@RequestBody Produto produto) {
         produtoRepository.save(produto);
         return ResponseEntity.noContent().build();
     }
@@ -106,10 +113,10 @@ public class ProdutoController {
             return ResponseEntity.ok().build(); // Retorna 200 OK
         } catch (Exception e) {
             System.out.println("Erro ao excluir o produto!");
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir produto: " + e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Erro ao excluir produto: " + e.getMessage());
         }
     }
-
 
     @GetMapping("/{id}")
     public ResponseEntity<Produto> buscarId(@PathVariable Long id) {
@@ -124,7 +131,7 @@ public class ProdutoController {
     }
 
     @GetMapping("/cadastrar")
-    public String criarProduto(Model model){
+    public String criarProduto(Model model) {
         return "cadastrarProduto";
     }
 
@@ -134,7 +141,8 @@ public class ProdutoController {
 
         if (produtoOptional.isPresent()) {
             Produto produto = produtoOptional.get();
-            model.addAttribute("produto", produto);;
+            model.addAttribute("produto", produto);
+            ;
             return "editarProduto";
         } else {
             return "error";

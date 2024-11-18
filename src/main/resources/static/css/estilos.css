@@ -1,9 +1,11 @@
+/* --------------------------- ESTILO GERAL ----------------------------------- */
 body {
     margin: 0;
     padding: 0;
     background-color: #D9D9D9; /* Cor de fundo para o resto da página */
 }
 
+/* --------------------------- BOTÕES DE NAVEGAÇÃO --------------------------- */
 .nav-btn {
     background-color: #F4EC29;
     color: black;
@@ -23,6 +25,7 @@ body {
     color: black; 
 }
 
+/* --------------------------- BARRAS DE TÍTULO ---------------------------- */
 .title-bar {
     background-color: #F4EC29;
     padding: 10px;
@@ -41,7 +44,7 @@ body {
     height: 50px;
 }
 
-.title-bar-caixa {
+.title-bar-caixa, .title-bar-cad {
     margin-top: 3px;
     padding: 6px;
     background-color: #F4EC29;
@@ -50,35 +53,32 @@ body {
     align-items: center;
 }
 
-.title-bar-cad {
-    margin-top: 3px;
-    padding: 6px;
-    background-color: #F4EC29;
-    align-items: flex-start;
-    display: flex;
-    /* align-items: center; */
-    justify-content: center;
-    align-content: stretch;
-}
-
+/* --------------------------- CONTAINERS GERAIS ---------------------------- */
 .container-quadro-tickes {
     display: flex;
-    height: calc(100vh - 100px);
-    align-content: flex-start;
+    height: calc(100vh - 100px); /* Ajuste da altura da página */
+    align-items: flex-start;
+    padding: 10px;
+    overflow: hidden; /* Para evitar que os elementos se sobreponham */
 }
 
 .container-geral-tickets {
-    padding: 20px;
-    background-color: #D9D9D9;
-    margin: 3px;
-    /* Centraliza o conteúdo verticalmente */
     display: flex;
     flex-wrap: wrap;
     width: 85%;
-    float: left;
+    padding: 10px;
+    background-color: #D9D9D9;
 }
 
-.container-geral-estoque {
+.container-geral-tickets button {
+    flex: 1 1 auto; /* Ajusta os botões para que eles se ajustem ao espaço disponível */
+    max-width: 120px; /* Defina um tamanho máximo para os botões */
+    min-width: 80px; /* Defina um tamanho mínimo para os botões */
+    height: 80px; /* Ajuste a altura conforme necessário */
+}
+
+
+.container-geral-estoque, .container-geral-caixa {
     margin-top: 20px; /* Adiciona uma margem superior */
     margin-bottom: 20px; /* Adiciona uma margem inferior */
     margin-left: auto; /* Margem à esquerda */
@@ -90,24 +90,13 @@ body {
     background-color: white;
 }
 
-.container-geral-caixa {
-    margin-top: 20px; /* Adiciona uma margem superior */
-    margin-bottom: 20px; /* Adiciona uma margem inferior */
-    margin-left: auto; /* Margem à esquerda */
-    margin-right: auto; /* Margem à direita */
-    width: calc(90% - 40px); /* 90% da largura da tela menos 40px (20px de margem à esquerda e 20px de margem à direita) */
-    max-width: 1200px; /* Define uma largura máxima para o container */
-    height: 70vh; /* 80% da altura da viewport */
-    padding: 20px;
-    background-color: white;
-}
-
+/* --------------------------- CENTRALIZAÇÃO ---------------------------- */
 .centralizar {
     flex: 1; /* Ocupa o espaço restante */
     text-align: center; /* Centraliza o texto */
 }
 
-
+/* --------------------------- CAMPO DE PESQUISA ---------------------------- */
 .pesquisar-container {
     display: flex;
     align-items: center;
@@ -133,8 +122,9 @@ body {
     font-size: 16px;
 }
 
-.nav-btn-caixa {
-    background-color: black ;
+/* --------------------------- BOTÕES CAIXA E CADASTRO ---------------------------- */
+.nav-btn-caixa, .nav-btn-cad {
+    background-color: black;
     color: white;
     border: none;
     border-radius: 20px;
@@ -147,134 +137,99 @@ body {
     cursor: pointer;
 }
 
-.nav-btn-cad {
-    background-color: black;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 135px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 14px;
-    cursor: pointer;
-}
-
-.nav-btn-cad:hover {
-    background-color: #FBB48D; 
-    color: white; 
-}
-
-.nav-btn-caixa:hover {
+.nav-btn-cad:hover, .nav-btn-caixa:hover {
     background-color: #FBB48D; 
     color: white; 
 }
 
 /* --------------------------- CARRINHO ----------------------------------- */
-
-side {
-    overflow-y: auto; /* Adiciona uma barra de rolagem vertical apenas quando necessário */
-    max-height: 90vh;
-    width: 15%;
+.side {
+    position: fixed;
+    top: 100px; /* Começa logo abaixo do menu */
+    right: 0;
+    width: 20%; /* A largura do carrinho */
+    max-height: calc(100vh - 100px); /* Ocupa toda a altura da página */
     background-color: #a49a9c;
+    overflow-y: auto; /* Permite rolagem vertical quando necessário */
+    padding: 20px;
 }
+
+.side .headerCabecalho {
+    text-align: center;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+#itensCarrinho {
+    padding-top: 20px;
+}
+
+#filtroPrecosContainer {
+    display: flex;
+    flex-wrap: wrap; /* Permite que os botões quebrem linha quando necessário */
+    justify-content: center; /* Centraliza os botões no container */
+    gap: 10px; /* Espaçamento entre os botões */
+    width: 100%; /* Ocupa toda a largura disponível */
+    margin-left: 10px;
+}
+
 
 .carrinho {
     width: 15%;
     float: right; /* Para permitir que o carrinho fique ao lado */
 }
 
-.headerCabecalho{
-    height: 20px;
-    margin-top: 5px;
-    font-weight: bold;
-    font-size: larger;
-    text-align: center;
-    
-}
-
-#btnCarrinho{
-    display: flex;
-    justify-content: center;
-}
-
-.btnCarrinho{
-    margin: 10px;
-    height: 30px;
-}
-
-.detalhes-produto{ /* JS */
+/* --------------------------- DETALHES DO PRODUTO ---------------------------- */
+.detalhes-produto { /* JS */
     background-color: #cac372;
     border: 2px solid #000000;
     margin-bottom: 2px;
     height: 80px;
 }
 
-.pSemEspaco{ /* JS */
+.pSemEspaco { /* JS */
     font-weight: bold;
     margin: 5px;
 }
 
-.buttonCarrinho{ /* JS */
+.buttonCarrinho { /* JS */
     display: flex;
     flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
 }
 
-.quantidade{ /* JS */
+.quantidade { /* JS */
     margin: 5px;
 }
 
-div .qtdUnit, div .estoqueCar{ /* JS */
+div .qtdUnit, div .estoqueCar { /* JS */
     display: none;
 }
 
-
 /* --------------------------- TICKETS ----------------------------------- */
-
-.ticket { /* JS */
-    background-color: #748c14;  
-    max-width: 10%;
-    max-height: 50%;
+.ticket {
     margin: 5px;
-    padding: 10px;
-    text-align: center; /* Centraliza o texto  */
-    
-    display: flex; /* Centraliza o conteúdo verticalmente */
-    flex-direction: column;
+    width: 60px;  /* Largura menor */
+    height: 120px;  /* Maior altura */
+    display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #F4EC29;
+    color: black;
+    font-size: 18px;
+    font-weight: bold;
+    border-radius: 10px;  /* Arredondar os cantos */
+    border: 2px solid #000000;
+}
+
+.ticket:hover {
+    background-color: #FBB48D;
     cursor: pointer;
 }
 
-.ticket p { /* JS */
-    font-size: 24px;
-    font-weight: bold;
-    word-wrap: break-word;
-}
 
-.promocional{ /* JS */
-    background-color: #aaaaaa;  
-}
-
-div .qtdUnitaria, div .pontoSuprimento{ /* JS */
-    display: none;
-}
-
-.estoqueBaixo{ /* JS */
-    color: orange;
-
-}
-
-.semEstoque{ /* JS */
-    color: rgba(255, 255, 255, 0.289);
-
-}
-
-/* --------------------------- MODAL MODO DE COMPRA ----------------------------------- */
-
+/* --------------------------- MODAL MODO DE COMPRA ---------------------------- */
 .modal {
     display: none; 
     position: fixed; 
