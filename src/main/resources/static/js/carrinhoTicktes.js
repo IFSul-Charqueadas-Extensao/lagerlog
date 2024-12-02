@@ -73,7 +73,7 @@ function gerarBotoesDePreco(produtos) {
                 const precoProdutoElem = document.createElement("p");
                 precoProdutoElem.textContent = `R$ ${produto.preco.toFixed(2)}`;
                 produtoDiv.appendChild(precoProdutoElem);
-
+               
                 const estoqueProdutoElem = document.createElement("p");
                 estoqueProdutoElem.textContent = `Estoque: ${produto.estoque}`;
                 produtoDiv.appendChild(estoqueProdutoElem);
@@ -82,6 +82,7 @@ function gerarBotoesDePreco(produtos) {
                 btnAdicionar.textContent = "Adicionar ao Carrinho";
                 btnAdicionar.addEventListener("click", function () {
                     adicionarAoCarrinho(produto.id, produto.descricao, produto.preco, produto.estoque, produto.quantidade);
+                    
                 });
 
                 produtoDiv.appendChild(btnAdicionar);
@@ -111,6 +112,7 @@ function gerarBotoesDePreco(produtos) {
                 produto.setAttribute('data-produto', produtoId);
                 produto.setAttribute('data-preco', precoProduto);
                 produto.setAttribute('data-quantidade', 1); // Inicializa a quantidade como 1
+
 
                 var itemCarrinho = document.createElement('p');
                 itemCarrinho.setAttribute('class', "pSemEspaco");
@@ -181,6 +183,9 @@ function gerarBotoesDePreco(produtos) {
     function atualizarTextoQuantidade(produto, precoProduto, quantidade) {
         var valorTotal = (precoProduto * quantidade).toFixed(2);
         produto.querySelector('.quantidade').textContent = "Qtd.: " + quantidade + " | R$ " + valorTotal;
+        let estoqueTexto = document.querySelector('div.produto-modal p:nth-of-type(3)').textContent;  //busca pelo terceiro <p> no modal, o <p> que mostra o estoque
+        let estoque = estoqueTexto.split(' ')[0] + ' ' + estoqueTexto.split(' ')[1];  //pega o texto 'Estoque' e também o valor dele com split 
+        document.querySelector('div.produto-modal p:nth-of-type(3)').textContent = estoque + " Qtd: " + quantidade;  //concatena o texto 'estoque' a nova quantidade
     }
 
     // Atualizar o preço total do carrinho
