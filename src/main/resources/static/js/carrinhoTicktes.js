@@ -3,6 +3,19 @@ document.addEventListener("DOMContentLoaded", function () {
     let produtosNoCarrinho = [];
     let precoSelecionado = null;
 
+    const precosCores = {
+        4: 'white', // Vale água (Branco)
+        6: 'blue', // Vale refrigerante (Azul marinho escuro)
+        12: '#a345a2', // R$12 (Roxo)
+        13: 'yellow', // R$13 (Amarelo)
+        14: 'green', // R$14 (Verde)
+        15: 'brown', // R$15 (Marrom)
+        16: 'red', // R$16 (Vermelho)
+        18: 'lightblue', // R$18 (Azul claro)
+        22: 'orange', // R$22 (Laranjas)
+    };
+    
+
     // Função para fazer requisição e buscar produtos
     function buscarProdutos() {
         fetch('/produto/listarProdutos')  // Novo endpoint que retorna os produtos em JSON
@@ -20,7 +33,6 @@ document.addEventListener("DOMContentLoaded", function () {
 function gerarProdutosNaPagina(produtos) {
     const produtosContainer = document.getElementById("produtosContainer");
     produtosContainer.innerHTML = ""; // Limpa o container antes de adicionar os novos produtos
-    // Não adicionamos mais os produtos no container da tela principal.
 }
 
 
@@ -30,24 +42,27 @@ function gerarBotoesDePreco(produtos) {
 
     // Coleta os preços únicos dos produtos
     produtos.forEach(produto => {
-        precosUnicos.add(produto.preco);
+        if (precosCores[produto.preco]) {  // Só adiciona preços que estão no mapeamento
+            precosUnicos.add(produto.preco);
+        }
     });
 
     // Converte o Set para um array, ordena em ordem crescente e gera os botões
     Array.from(precosUnicos).sort((a, b) => a - b).forEach(preco => {
         const botaoPreco = document.createElement("button");
-        botaoPreco.classList.add("ticket"); // Adiciona a classe ticket
+        botaoPreco.classList.add("ticket");
+        botaoPreco.style.backgroundColor = precosCores[preco]; // Atribui a cor correspondente ao preço
         botaoPreco.innerHTML = `<p>R$ ${preco.toFixed(2)}</p>`; // O valor do preço é centralizado dentro de <p>
+
         botaoPreco.addEventListener("click", function () {
             precoSelecionado = preco;
             document.getElementById("modalProdutos").style.display = "block";
             preencherProdutosNoModal(precoSelecionado, produtos);
         });
+
         filtroPrecosContainer.appendChild(botaoPreco);
     });
-    
 }
-
 
 
     document.getElementById("modalProdutosClose").addEventListener("click", function () {
