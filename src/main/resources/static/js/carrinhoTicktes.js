@@ -298,5 +298,4 @@ function gerarBotoesDePreco(produtos) {
             alert("Selecione uma forma de pagamento.");
         }
     });
-    
 });

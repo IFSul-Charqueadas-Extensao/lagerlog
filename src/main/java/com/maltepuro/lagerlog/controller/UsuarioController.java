@@ -3,6 +3,7 @@ package com.maltepuro.lagerlog.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,6 +20,7 @@ import com.maltepuro.lagerlog.repository.UsuarioRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.ui.Model;
 
@@ -29,6 +31,9 @@ public class UsuarioController {
     @Autowired //injetar repositório automaticamente, em vez de criar uma instância dele manualmente.
     private UsuarioRepository usuarioRepository; //utilizar a classe de acesso ao banco de dados
     
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     @PostMapping
     public String incluir(@RequestParam String usuario,
                         @RequestParam String nome, 
@@ -38,15 +43,27 @@ public class UsuarioController {
         Usuario novoUsuario = new Usuario();
         novoUsuario.setUsuario(usuario);
         novoUsuario.setNome(nome);
-        novoUsuario.setSenha(senha);
-        novoUsuario.setGrupo(grupo);
+        novoUsuario.setSenha(passwordEncoder.encode(senha));
+        
+        switch(grupo){
+            case "Administrador":
+                novoUsuario.setGrupos(Set.of("ROLE_ADMINISTRADOR", "ROLE_SUPERVISOR", "ROLE_OPERADOR"));
+                break;
+            case "Supervisor":
+                novoUsuario.setGrupos(Set.of("ROLE_SUPERVISOR", "ROLE_OPERADOR"));
+                break;
+            case "Operador":
+                novoUsuario.setGrupos(Set.of("ROLE_OPERADOR"));
+                break;
+            default:
+                novoUsuario.setGrupos(Set.of("ROLE_NULL"));
+        }
         novoUsuario.setStatus(true);
         usuarioRepository.save(novoUsuario);
         System.out.println("Usuário cadastrado com sucesso!");
         redirectAttributes.addFlashAttribute("mensagem", "Usuário cadastrado com sucesso!");
         return "redirect:/usuario/listar";
     }
-
 
     @GetMapping("/listar")
     public String listar(Model model){
@@ -73,8 +90,20 @@ public class UsuarioController {
         u.setId(Long.parseLong(id));
         u.setUsuario(usuario);
         u.setNome(nome);
-        u.setSenha(senha);
-        u.setGrupo(grupo);
+        u.setSenha(passwordEncoder.encode(senha));
+        switch(grupo){
+            case "Administrador":
+                u.setGrupos(Set.of("ROLE_ADMINISTRADOR", "ROLE_SUPERVISOR", "ROLE_OPERADOR"));
+                break;
+            case "Supervisor":
+                u.setGrupos(Set.of("ROLE_SUPERVISOR", "ROLE_OPERADOR"));
+                break;
+            case "Operador":
+                u.setGrupos(Set.of("ROLE_OPERADOR"));
+                break;
+            default:
+                u.setGrupos(Set.of("ROLE_NULL"));
+        }
         u.setStatus(status);
         usuarioRepository.save(u);
         System.out.println("Usuário editado com sucesso!");

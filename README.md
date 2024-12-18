@@ -1,5 +1,5 @@
-# Lagerlog
-Descrição:
+# 🍺 Lagerlog
+
 Sistema de administração de vendas.
 Em resumo o sistema é capaz de realizar um relatório de vendas, administração de estoque, cadastrar produtos. 
 
@@ -8,25 +8,22 @@ Em resumo o sistema é capaz de realizar um relatório de vendas, administraçã
 * (Usando VSCode) Extensão Spring Boot Dashboard
 * Software Git para controle de versão e gerenciamento de código-fonte
  
-## Rodando o projeto (Desenvolvimento)
-Windows
+## Rodando o projeto
+1. Clone o repositório.
+2. Crie um par de chaves pública e privada em src/main/resources.
+```bash
+openssl genrsa -out app.key
+openssl rsa -in app.key -pubout -out app.pub
 ```
+3. Rode o projeto com o Maven embutido.
+```bash
 # Windows
 mvnw spring-boot:run
-```
 
-Linux
-```
+# Linux
 ./mvnw spring-boot:run
 ```
-
-O projeto estará rodando em
-```
-localhost:8080/
-```
-
-## Rodando o projeto (Deployment)
-Em construção.
+4. O projeto estará rodando em http://localhost:8080/
 
 ## Como trabalhar com o repositório forkado do GitHub no VS Code
 
@@ -117,9 +114,8 @@ Em construção.
 - Utilize as mensagens de commit para detalhar as modificações feitas.
 
 ## Autores
-* Augusto Cruz
-* Davison Azevedo
-* Gabriel Baptista
-* Khaue Facklam
-* Morgana Candido
-* Rodrigo Moraes
+
+| <img src="https://avatars.githubusercontent.com/u/108577671?v=4" width="80"> | <img src="https://avatars.githubusercontent.com/u/93564378?v=4" width="80"> | <img src="https://avatars.githubusercontent.com/u/49773194?v=4" width="80"> | <img src="https://avatars.githubusercontent.com/u/99762206?v=4" width="80"> | <img src="https://avatars.githubusercontent.com/u/95589687?v=4" width="80"> | <img src="https://avatars.githubusercontent.com/u/176353837?v=4" width="80"> |
+| - | - | - | - | - | - |
+| [Augusto Cruz](https://github.com/AugustoCruz01) | [Davison Azevedo](https://github.com/Davisond) | [Gabriel Baptista](https://github.com/bapGabriel) | [Khaue Facklam](https://github.com/KhaueFacklam) | [Morgana Candido](https://github.com/morganacandido) | [Rodrigo Moraes](https://github.com/rodr1golm) |
+
