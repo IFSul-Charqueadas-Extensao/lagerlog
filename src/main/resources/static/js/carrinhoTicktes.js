@@ -253,15 +253,47 @@ function gerarBotoesDePreco(produtos) {
             var itensCarrinho = document.getElementById('itensCarrinho');
             var produtos = itensCarrinho.querySelectorAll('.detalhes-produto');
             var carrinho = [];
+            var estoqueDisponivel = true;
+    
             produtos.forEach(function (produto) {
                 var idProduto = produto.getAttribute('data-produto');
-                var quantidade = produto.getAttribute('data-quantidade');
-                carrinho.push({id: idProduto, quantidade: quantidade});
+                var quantidade = parseInt(produto.getAttribute('data-quantidade'));
+                var precoProduto = parseFloat(produto.getAttribute('data-preco'));
+    
+                // Verifique se a quantidade do produto no carrinho é maior que a quantidade no estoque
+                var quantidadeEstoque = parseInt(produto.getAttribute('data-estoque'));
+                if (quantidade > quantidadeEstoque) {
+                    estoqueDisponivel = false;
+                    alert("Quantidade do produto " + produto.getAttribute('data-nome') + " não disponível em estoque.");
+                }
+    
+                carrinho.push({id: idProduto, quantidade: quantidade, preco: precoProduto});
             });
-            alert("Venda confirmada. Produtos: " + JSON.stringify(carrinho));
-            document.getElementById('modalTipoVenda').style.display = 'none';
-            document.getElementById('itensCarrinho').innerHTML = '';
-            document.getElementById('total').textContent = 'R$ 0.00';
+    
+            if (estoqueDisponivel) {
+                // Enviar a requisição POST para finalizar a venda
+                fetch('/venda/finalizar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        carrinho: carrinho,
+                        modoPagamento: modoPagamento.value
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data);
+                    document.getElementById('modalTipoVenda').style.display = 'none';
+                    document.getElementById('itensCarrinho').innerHTML = '';
+                    document.getElementById('total').textContent = 'R$ 0.00';
+                })
+                .catch(error => {
+                    console.error("Erro ao finalizar venda", error);
+                    alert("Erro ao finalizar venda.");
+                });
+            }
         } else {
             alert("Selecione uma forma de pagamento.");
         }
