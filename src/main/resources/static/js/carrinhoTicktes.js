@@ -241,24 +241,45 @@ function gerarBotoesDePreco(produtos) {
             }
         });
 
-    // Confirmar a venda no modal
-    document.getElementById('btnConfirmarVenda').addEventListener('click', function() {
-        var modoPagamento = document.querySelector('input[name="tipoVenda"]:checked');
-        if (modoPagamento) {
-            var itensCarrinho = document.getElementById('itensCarrinho');
-            var produtos = itensCarrinho.querySelectorAll('.detalhes-produto');
-            var carrinho = [];
-            produtos.forEach(function (produto) {
-                var idProduto = produto.getAttribute('data-produto');
-                var quantidade = produto.getAttribute('data-quantidade');
-                carrinho.push({id: idProduto, quantidade: quantidade});
-            });
-            alert("Venda confirmada. Produtos: " + JSON.stringify(carrinho));
+// Confirmar a venda no modal
+document.getElementById('btnConfirmarVenda').addEventListener('click', function() {
+    var modoPagamento = document.querySelector('input[name="tipoVenda"]:checked');
+    if (modoPagamento) {
+        var itensCarrinho = document.getElementById('itensCarrinho');
+        var produtos = itensCarrinho.querySelectorAll('.detalhes-produto');
+        var carrinho = [];
+        produtos.forEach(function (produto) {
+            var idProduto = produto.getAttribute('data-produto');
+            var quantidade = parseInt(produto.getAttribute('data-quantidade'));
+            var precoProduto = parseFloat(produto.getAttribute('data-preco'));
+            carrinho.push({id: idProduto, quantidade: quantidade, preco: precoProduto});
+        });
+
+        // Enviar a requisição POST para finalizar a venda
+        fetch('/venda/finalizar', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                carrinho: carrinho,
+                modoPagamento: modoPagamento.value
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            alert(data);
             document.getElementById('modalTipoVenda').style.display = 'none';
             document.getElementById('itensCarrinho').innerHTML = '';
             document.getElementById('total').textContent = 'R$ 0.00';
-        } else {
-            alert("Selecione uma forma de pagamento.");
-        }
-    });
+        })
+        .catch(error => {
+            console.error("Erro ao finalizar venda", error);
+            alert("Erro ao finalizar venda.");
+        });
+    } else {
+        alert("Selecione uma forma de pagamento.");
+    }
+});
+
 });

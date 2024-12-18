@@ -81,6 +81,7 @@ public class CarrinhoController {
                 
                 // Ajustando estoque
                 produtoEntity.setEstoque(produtoEntity.getEstoque() - produto.getQuantidade());
+                produtoRepository.save(produtoEntity); // Salva a alteração no estoque do produto
                 Estoque baixaEstoque = new Estoque();
                 baixaEstoque.setProduto(produtoEntity);
                 baixaEstoque.setTipo("VENDA");
