@@ -1,10 +1,19 @@
 package com.maltepuro.lagerlog.model;
 
+import java.util.Set;
+
+// import com.maltepuro.lagerlog.model.roles.UsuarioRole;
+
+import jakarta.persistence.CollectionTable;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,6 +22,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor //criar construtor com todos argumentos
 @Data //criar getters, setters, toString ...
 @Entity // tabela
+
+@Table
 public class Usuario {
 
     @Id
@@ -22,23 +33,12 @@ public class Usuario {
     private String usuario;
     private String nome;
     private String senha;
-    private String grupo;
-    private boolean status;
-
-    public boolean getStatus() {
-        return status;
-    }
+    // private String grupo;
     
-    /*
-    @NotNull
-    @Size(min = 3, message = "O nome deve ter no mínimo 3 caracteres.")
-    private String nome;
-
-    @NotNull(message = "A senha deve ser informada.")
-    private Long senha;
-
-    @NotNull(message = "Por favor selecione o nível do usuário.")
-    private Long nivel;
-    */
-
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "cod_usuario"))
+    @Column(name = "role")
+    private Set<String> grupos;
+    
+    private boolean status;
 }

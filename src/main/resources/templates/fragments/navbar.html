@@ -7,6 +7,10 @@
         <a href="/estoque" class="nav-btn">Estoque</a>
         <a href="/caixa" class="nav-btn">Caixa</a>
         <a href="/cadastros" class="nav-btn">Cadastros</a>
+        <div>
+            <a href="/auth/logout" class"nav-btn">Sair</a>
+            <span sec:authentication="name"></span>
+        </div>
     </nav>
 </body>
 </html>

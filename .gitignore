@@ -34,3 +34,7 @@ build/
 
 ### Database ###
 data/*
+
+### Chaves ###
+app.key
+app.pub
