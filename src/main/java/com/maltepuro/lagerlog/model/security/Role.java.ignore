@@ -1,0 +1,7 @@
+package com.maltepuro.lagerlog.model.roles;
+
+public enum Role {
+    ROLE_ADMIN,
+    ROLE_SUPERVISOR,
+    ROLE_OPERADOR
+}
