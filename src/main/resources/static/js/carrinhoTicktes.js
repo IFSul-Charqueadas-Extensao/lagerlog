@@ -88,7 +88,7 @@ function gerarBotoesDePreco(produtos) {
                 const precoProdutoElem = document.createElement("p");
                 precoProdutoElem.textContent = `R$ ${produto.preco.toFixed(2)}`;
                 produtoDiv.appendChild(precoProdutoElem);
-
+               
                 const estoqueProdutoElem = document.createElement("p");
                 estoqueProdutoElem.textContent = `Estoque: ${produto.estoque}`;
                 produtoDiv.appendChild(estoqueProdutoElem);
@@ -97,6 +97,7 @@ function gerarBotoesDePreco(produtos) {
                 btnAdicionar.textContent = "Adicionar ao Carrinho";
                 btnAdicionar.addEventListener("click", function () {
                     adicionarAoCarrinho(produto.id, produto.descricao, produto.preco, produto.estoque, produto.quantidade);
+                    
                 });
 
                 produtoDiv.appendChild(btnAdicionar);
@@ -126,6 +127,7 @@ function gerarBotoesDePreco(produtos) {
                 produto.setAttribute('data-produto', produtoId);
                 produto.setAttribute('data-preco', precoProduto);
                 produto.setAttribute('data-quantidade', 1); // Inicializa a quantidade como 1
+
 
                 var itemCarrinho = document.createElement('p');
                 itemCarrinho.setAttribute('class', "pSemEspaco");
@@ -196,6 +198,9 @@ function gerarBotoesDePreco(produtos) {
     function atualizarTextoQuantidade(produto, precoProduto, quantidade) {
         var valorTotal = (precoProduto * quantidade).toFixed(2);
         produto.querySelector('.quantidade').textContent = "Qtd.: " + quantidade + " | R$ " + valorTotal;
+        let estoqueTexto = document.querySelector('div.produto-modal p:nth-of-type(3)').textContent;  //busca pelo terceiro <p> no modal, o <p> que mostra o estoque
+        let estoque = estoqueTexto.split(' ')[0] + ' ' + estoqueTexto.split(' ')[1];  //pega o texto 'Estoque' e também o valor dele com split 
+        document.querySelector('div.produto-modal p:nth-of-type(3)').textContent = estoque + " Qtd: " + quantidade;  //concatena o texto 'estoque' a nova quantidade
     }
 
     // Atualizar o preço total do carrinho
@@ -241,45 +246,57 @@ function gerarBotoesDePreco(produtos) {
             }
         });
 
-// Confirmar a venda no modal
-document.getElementById('btnConfirmarVenda').addEventListener('click', function() {
-    var modoPagamento = document.querySelector('input[name="tipoVenda"]:checked');
-    if (modoPagamento) {
-        var itensCarrinho = document.getElementById('itensCarrinho');
-        var produtos = itensCarrinho.querySelectorAll('.detalhes-produto');
-        var carrinho = [];
-        produtos.forEach(function (produto) {
-            var idProduto = produto.getAttribute('data-produto');
-            var quantidade = parseInt(produto.getAttribute('data-quantidade'));
-            var precoProduto = parseFloat(produto.getAttribute('data-preco'));
-            carrinho.push({id: idProduto, quantidade: quantidade, preco: precoProduto});
-        });
-
-        // Enviar a requisição POST para finalizar a venda
-        fetch('/venda/finalizar', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                carrinho: carrinho,
-                modoPagamento: modoPagamento.value
-            })
-        })
-        .then(response => response.json())
-        .then(data => {
-            alert(data);
-            document.getElementById('modalTipoVenda').style.display = 'none';
-            document.getElementById('itensCarrinho').innerHTML = '';
-            document.getElementById('total').textContent = 'R$ 0.00';
-        })
-        .catch(error => {
-            console.error("Erro ao finalizar venda", error);
-            alert("Erro ao finalizar venda.");
-        });
-    } else {
-        alert("Selecione uma forma de pagamento.");
-    }
-});
-
+    // Confirmar a venda no modal
+    document.getElementById('btnConfirmarVenda').addEventListener('click', function() {
+        var modoPagamento = document.querySelector('input[name="tipoVenda"]:checked');
+        if (modoPagamento) {
+            var itensCarrinho = document.getElementById('itensCarrinho');
+            var produtos = itensCarrinho.querySelectorAll('.detalhes-produto');
+            var carrinho = [];
+            var estoqueDisponivel = true;
+    
+            produtos.forEach(function (produto) {
+                var idProduto = produto.getAttribute('data-produto');
+                var quantidade = parseInt(produto.getAttribute('data-quantidade'));
+                var precoProduto = parseFloat(produto.getAttribute('data-preco'));
+    
+                // Verifique se a quantidade do produto no carrinho é maior que a quantidade no estoque
+                var quantidadeEstoque = parseInt(produto.getAttribute('data-estoque'));
+                if (quantidade > quantidadeEstoque) {
+                    estoqueDisponivel = false;
+                    alert("Quantidade do produto " + produto.getAttribute('data-nome') + " não disponível em estoque.");
+                }
+    
+                carrinho.push({id: idProduto, quantidade: quantidade, preco: precoProduto});
+            });
+    
+            if (estoqueDisponivel) {
+                // Enviar a requisição POST para finalizar a venda
+                fetch('/venda/finalizar', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        carrinho: carrinho,
+                        modoPagamento: modoPagamento.value
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert(data);
+                    document.getElementById('modalTipoVenda').style.display = 'none';
+                    document.getElementById('itensCarrinho').innerHTML = '';
+                    document.getElementById('total').textContent = 'R$ 0.00';
+                })
+                .catch(error => {
+                    console.error("Erro ao finalizar venda", error);
+                    alert("Erro ao finalizar venda.");
+                });
+            }
+        } else {
+            alert("Selecione uma forma de pagamento.");
+        }
+    });
+    
 });
