@@ -2,14 +2,67 @@
 <html lang="en">
 
 <body>
-    <nav th:fragment="nav" class="navbar">
-        <a href="/home" class="nav-btn">Tickets</a>
-        <a href="/estoque" class="nav-btn">Estoque</a>
-        <a href="/caixa" class="nav-btn">Caixa</a>
-        <a href="/cadastros" class="nav-btn">Cadastros</a>
-        <div>
-            <a href="/auth/logout" class"nav-btn">Sair</a>
-            <span sec:authentication="name"></span>
+    <!-- Nav Primário -->
+     
+    <nav th:fragment="navMain" id="navMain">
+        <div class="nav-buttons">
+            <a href="/home" th:class="${#strings.contains(currentUrl, 'home')} ? 'btn-active' : ''">Tickets</a>
+            <a href="/controle" th:class="${#strings.contains(currentUrl, 'controle')} ? btn-active : ''" sec:authorize="hasRole('ROLE_SUPERVISOR')">Controle</a>
+            <a href="/caixa" th:class="${#strings.contains(currentUrl, 'caixa')} ? btn-active : ''" sec:authorize="hasRole('ROLE_SUPERVISOR')">Caixa</a>
+            <a href="/sistema" th:class="${#strings.contains(currentUrl, 'sistema')} ? btn-active : ''" sec:authorize="hasRole('ROLE_SUPERVISOR')">Sistema</a>
+        </div>
+        <div id="nav-usuario">
+            <a href="/auth/logout">Sair</a>
+            <span th:text="${#authentication.getPrincipal().getDisplayName()}">Nome</span>
+        </div>
+    </nav>
+
+    <!-- Navs Secundários -->
+    <nav th:fragment="navControle" id="navSecondary">
+        <div class="nav-buttons">
+            <a href="/controle/estoque">Estoque</a>
+            <a href="/controle/produto">Produtos</a>
+        </div>
+    </nav>
+
+    <nav th:fragment="navCaixa" id="navSecondary">
+        <div class="nav-buttons">
+            <a href="/caixa/venda/listar">Lista de Vendas</a>
+            <a href="/caixa/venda/produtos">Produtos Vendidos</a>
+        </div>
+    </nav>
+
+    <nav th:fragment="navSistema" id="navSecondary">
+        <div class="nav-buttons">
+            <a href="/sistema/usuario">Usuários</a>
+            <!-- <a href="/sistema/ticket">Tickets</a> -->
+        </div>
+    </nav>
+
+    <!-- Navs Terciários -->
+    <nav th:fragment="navEstoque" id="navTertiary">
+        <div class="nav-buttons">
+            <a href="/controle/estoque/registros">Registro de Estoque</a>
+            <a href="/controle/estoque/cadastrar">Entrada em Estoque</a>
+            <a href="/controle/estoque/ajustar">Ajuste de Estoque</a>
+        </div>
+    </nav>
+
+    <nav th:fragment="navProdutos" id="navTertiary">
+        <div class="nav-buttons">
+            <a href="/controle/produto/cadastrar">Adicionar</a>
+        </div>
+    </nav>
+
+    <nav th:fragment="navUsuarios" id="navTertiary">
+        <div class="nav-buttons">
+            <a href="/sistema/usuario/cadastrar">Adicionar</a>
+        </div>
+    </nav>
+
+    <nav th:fragment="navTickets" id="navTertiary">
+        <div class="nav-buttons">
+        
         </div>
     </nav>
 </body>

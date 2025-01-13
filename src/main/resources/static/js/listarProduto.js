@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.btnDelete').forEach(function (btn) {
         btn.addEventListener('click', function () {
             var id = this.getAttribute('data-id');
-            var url = '/produto/' + id;
+            var url = '/controle/produto/' + id;
 
             fetch(url, {
                 method: 'DELETE'
@@ -25,7 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll('.btnUpdate').forEach(function (btn) {
         btn.addEventListener('click', function () {
             var id = this.getAttribute('data-id');
-            window.location.href = '/produto/editar/' + id;
+            window.location.href = '/controle/produto/editar/' + id;
         });
     });
 

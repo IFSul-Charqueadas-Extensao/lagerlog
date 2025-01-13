@@ -1,46 +1,20 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html th:replace="~{fragments/layouts/mainLayout :: layout(~{::title}, ~{}, ~{::script}, ~{::body}, ~{})}">
 
 <head>
     <meta charset="UTF-8"> <!-- Define o conjunto de caracteres para UTF-8 (incluindo caracteres especiais como acentos) -->
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Torna o site responsivo para diferentes tamanhos de tela -->
     <title>Tickets</title> <!-- Define o título da página -->
-    <link rel="stylesheet" href="/css/estilos.css"> <!-- Conecta o arquivo CSS de estilo -->
-    <script src="/js/carrinhoTicktes.js" defer></script> <!-- Conecta o arquivo JavaScript para funcionalidades do carrinho -->
+    <script src="/js/carrinhoTickets.js" defer></script> <!-- Conecta o arquivo JavaScript para funcionalidades do carrinho -->
 </head>
 
 <body>
-
-    <!-- Aqui estamos incluindo um fragmento de código que provavelmente é o menu de navegação (navbar) -->
-    <div th:insert="~{fragments/navbar :: nav}"></div>
-
-    <!-- Barra de título do quadro de tickets -->
-    <div class="title-bar">
-        <div class="centralizar">Quadro de tickets</div> <!-- Centraliza o título "Quadro de tickets" -->
-    </div>
-
-    <div id="filtroPrecosContainer"></div>
-
-    <!-- Modal para exibir os produtos cadastrados -->
-    <div id="modalProdutos" class="modal">
-        <div class="modal-content">
-            <span class="close" id="modalProdutosClose">&times;</span>
-            <h2>Produtos Disponíveis</h2>
-            <div class="container-geral-tickets" id="produtosModalContainer">
-                <!-- Produtos serão inseridos aqui dinamicamente -->
-            </div>
-        </div>
-    </div>
-
-    <!-- Container principal que vai conter todos os tickets -->
-    <div class="container-quadro-tickes">
-        <!-- Container de Botões -->
-        <div class="container-geral-tickets" id="produtosContainer">
-            <!-- Os botões e produtos serão carregados aqui -->
-        </div>
     
-        <!-- Carrinho à direita -->
-        <side class="side">
+
+    <div id="ticketsContainer">
+        <div id="filtroPrecosContainer"></div>
+        
+        <div id="carrinho">
             <div class="headerCabecalho centralizar">CARRINHO</div>
             <div id="total" class="headerCabecalho">R$ 0.00</div>
             <div id="btnCarrinho">
@@ -48,7 +22,36 @@
                 <button id="btnFinalizar" class="btnCarrinho">Finalizar Venda</button>
             </div>
             <div id="itensCarrinho"></div>
-        </side>
+        </div>
+    </div>
+
+    <!-- Modal para exibir os produtos cadastrados -->
+    <div id="modalProdutos" class="modal">
+        <div class="modal-content">
+            <span class="close" id="modalProdutosClose">&times;</span>
+            <h2>Produtos Disponíveis</h2>
+            <div id="produtosModalContainer">
+                <!-- Produtos serão inseridos aqui dinamicamente -->
+            </div>
+        </div>
+    </div>
+    <!-- Container principal que vai conter todos os tickets -->
+    <div class="container-quadro-tickets">
+        <!-- Container de Botões -->
+        <div class="container-geral-tickets" id="produtosContainer">
+            <!-- Os botões e produtos serão carregados aqui -->
+        </div>
+    
+        <!-- Carrinho à direita -->
+        <!-- <side class="side">
+            <div class="headerCabecalho centralizar">CARRINHO</div>
+            <div id="total" class="headerCabecalho">R$ 0.00</div>
+            <div id="btnCarrinho">
+                <button id="btnLimpar" class="btnCarrinho">Limpar</button>
+                <button id="btnFinalizar" class="btnCarrinho">Finalizar Venda</button>
+            </div>
+            <div id="itensCarrinho"></div>
+        </side> -->
     </div>
 
     <!-- Modal para seleção do tipo de venda (ex: PIX, Dinheiro, etc.) -->
@@ -59,21 +62,20 @@
             <form id="tipoVendaForm">
                 <label>
                     <input type="radio" name="tipoVenda" value="pix"> PIX
-                </label><br><br>
+                </label>
                 <label>
                     <input type="radio" name="tipoVenda" value="dinheiro"> Dinheiro
-                </label><br><br>
+                </label>
                 <label>
                     <input type="radio" name="tipoVenda" value="debito"> Débito
-                </label><br><br>
+                </label>
                 <label>
                     <input type="radio" name="tipoVenda" value="credito"> Crédito
-                </label><br><br>
+                </label>
                 <button type="button" id="btnConfirmarVenda">Confirmar Venda</button> <!-- Botão para confirmar a venda -->
             </form>
         </div>
     </div>
-
 </body>
 
 </html>

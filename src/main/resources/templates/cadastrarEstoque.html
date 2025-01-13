@@ -1,20 +1,17 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<html th:replace="~{fragments/layouts/mainLayout :: layout(~{::title}, ~{}, ~{::script}, ~{::body}, ~{fragments/navbar :: navEstoque})}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro Estoque</title>
-    <link rel="stylesheet" href="/css/estilos.css">
     <script src="/js/estoque.js"></script>
 </head>
 
 <body>
-
-    <div th:insert="~{fragments/navbar :: nav}"></div>
-
-    <h2>Entrada de Estoque</h2>
-    <form action="/estoque/cadastrar" method="post">
+    
+    
+    <form action="cadastrar" method="post">
         
         <label for="produto">Produto:</label>
         <select id="produto" name="produto" required>
@@ -23,16 +20,16 @@
                     th:value="${produto.id}"
                     th:text="${produto.descricao}"
                     th:data-unidade-cadastro="${produto.unidade}">Produto</option>
-        </select><br><br>
+        </select>
 
         <label for="unidadeCadastro">Unidade de cadastro:</label>
-        <input type="text" id="unidadeCadastro" name="unidadeCasdastro" readonly required><br><br>
+        <input type="text" id="unidadeCadastro" name="unidadeCadastro" readonly required>
 
         <label for="quantidade">Quantidade:</label>
-        <input type="number" id="quantidade" name="quantidade" step="0.01" required><br><br>
+        <input type="number" id="quantidade" name="quantidade" step="0.01" required>
         
         <label for="observacao">Observação:</label>
-        <input type="text" id="observacao" name="observacao" required><br><br>
+        <input type="text" id="observacao" name="observacao" required>
 
         <input type="submit" value="CONFIRMAR ENTRADA">
     </form>

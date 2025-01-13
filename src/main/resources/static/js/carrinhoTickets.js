@@ -4,21 +4,21 @@ document.addEventListener("DOMContentLoaded", function () {
     let precoSelecionado = null;
 
     const precosCores = {
-        4: 'white', // Vale água (Branco)
-        6: 'blue', // Vale refrigerante (Azul marinho escuro)
-        12: '#a345a2', // R$12 (Roxo)
-        13: 'yellow', // R$13 (Amarelo)
-        14: 'green', // R$14 (Verde)
-        15: 'brown', // R$15 (Marrom)
-        16: 'red', // R$16 (Vermelho)
-        18: 'lightblue', // R$18 (Azul claro)
-        22: 'orange', // R$22 (Laranjas)
+        4: '#ffffff', // Vale água (Branco)
+        6: '#2b466e', // Vale refrigerante (Azul marinho escuro)
+        12: '#82779a', // R$12 (Roxo)
+        13: '#fef7cb', // R$13 (Amarelo)
+        14: '#90da90', // R$14 (Verde)
+        15: '#d3b792', // R$15 (Marrom)
+        16: '#f13537', // R$16 (Vermelho)
+        18: '#71e5fe', // R$18 (Azul claro)
+        22: '#f3b748', // R$22 (Laranjas)
     };
     
 
     // Função para fazer requisição e buscar produtos
     function buscarProdutos() {
-        fetch('/produto/listarProdutos')  // Novo endpoint que retorna os produtos em JSON
+        fetch('/controle/produto/listarProdutos')  // Novo endpoint que retorna os produtos em JSON
             .then(response => response.json()) // Espera a resposta em formato JSON
             .then(produtos => {
                 gerarProdutosNaPagina(produtos); // Passa os produtos recebidos para gerar os tickets
@@ -52,7 +52,7 @@ function gerarBotoesDePreco(produtos) {
         const botaoPreco = document.createElement("button");
         botaoPreco.classList.add("ticket");
         botaoPreco.style.backgroundColor = precosCores[preco]; // Atribui a cor correspondente ao preço
-        botaoPreco.innerHTML = `<p>R$ ${preco.toFixed(2)}</p>`; // O valor do preço é centralizado dentro de <p>
+        botaoPreco.innerHTML = `<div class="ticketLogo"><img src="/img/logo.png"></div> <div class="ticketText"><p>VALE</p> <p>R$${preco.toFixed(2)}</p></div>`; // O valor do preço é centralizado dentro de <p>
 
         botaoPreco.addEventListener("click", function () {
             precoSelecionado = preco;
@@ -131,7 +131,7 @@ function gerarBotoesDePreco(produtos) {
 
                 var itemCarrinho = document.createElement('p');
                 itemCarrinho.setAttribute('class', "pSemEspaco");
-                itemCarrinho.textContent = nomeProduto + " R$ " + precoProduto;
+                itemCarrinho.textContent = nomeProduto + " | R$ " + precoProduto;
                 produto.appendChild(itemCarrinho);
 
                 var quantidadeControle = document.createElement('div');
@@ -282,20 +282,20 @@ function gerarBotoesDePreco(produtos) {
                         modoPagamento: modoPagamento.value
                     })
                 })
-                .then(response => response.json())
+                .then(response => response.text())
                 .then(data => {
-                    alert(data);
+                    // alert(data);
                     document.getElementById('modalTipoVenda').style.display = 'none';
                     document.getElementById('itensCarrinho').innerHTML = '';
                     document.getElementById('total').textContent = 'R$ 0.00';
                 })
                 .catch(error => {
                     console.error("Erro ao finalizar venda", error);
-                    alert("Erro ao finalizar venda.");
+                    // alert("Erro ao finalizar venda.");
                 });
             }
         } else {
-            alert("Selecione uma forma de pagamento.");
+            // alert("Selecione uma forma de pagamento.");
         }
     });
 });

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -17,6 +18,7 @@ import com.maltepuro.lagerlog.repository.EstoqueRepository;
 import com.maltepuro.lagerlog.repository.ProdutoRepository;
 
 
+@RequestMapping("/controle/estoque")
 @Controller
 public class EstoqueController {
 
@@ -26,7 +28,7 @@ public class EstoqueController {
     @Autowired
     private ProdutoRepository produtoRepository;
 
-    @GetMapping("/estoque")
+    @GetMapping()
     public String getEstoque(Model model) {
         List<Produto> produto = produtoRepository.findAll();
         Produto[] arrayProdutosEstoque = produto.toArray(new Produto[0]);
@@ -35,7 +37,7 @@ public class EstoqueController {
     }
 
     
-    @GetMapping("/estoque/registros")
+    @GetMapping("/registros")
     public String getRegistrosEstoque(Model model) {
         List<Estoque> estoque = estoqueRepository.findAll();
         Estoque[] arrayEstoque = estoque.toArray(new Estoque[0]);
@@ -43,7 +45,7 @@ public class EstoqueController {
         return "listarRegistrosEstoque";
     }
 
-    @GetMapping("/estoque/cadastrar")
+    @GetMapping("/cadastrar")
     public String entradaEstoque(Model model){
         List<Produto> produtos = produtoRepository.findAll();
         model.addAttribute("produtos", produtos);
@@ -51,7 +53,7 @@ public class EstoqueController {
     }
 
    
-    @PostMapping("/estoque/cadastrar")
+    @PostMapping("/cadastrar")
     public String cadastrarEstoque(@RequestParam String produto,
         @RequestParam String quantidade, @RequestParam String observacao, 
         RedirectAttributes redirectAttributes) {
@@ -83,17 +85,17 @@ public class EstoqueController {
                 
         System.out.println("Entrada cadastrada com sucesso!");
         redirectAttributes.addFlashAttribute("mensagem", "Entrada de estoque cadastrada com sucesso!");
-        return "redirect:/estoque";
+        return "redirect:/controle/estoque";
     }
 
-    @GetMapping("/estoque/ajustar")
+    @GetMapping("/ajustar")
     public String ajusteEstoque(Model model){
         List<Produto> produtos = produtoRepository.findAll();
         model.addAttribute("produtos", produtos);
         return "ajustarEstoque";
     }
 
-    @PostMapping("/estoque/ajustar")
+    @PostMapping("/ajustar")
     public String ajustarEstoque(@RequestParam String produto,
         @RequestParam String quantidade, @RequestParam String observacao, 
         RedirectAttributes redirectAttributes) {
@@ -118,7 +120,7 @@ public class EstoqueController {
             String mensagem = "A operação não pôde ser concluída. O estoque do produto '" + descricaoProduto + "' é insuficiente para a quantidade de baixa solicitada. Estoque atual: " + estoqueAtual + " " + unidade + " .";
             System.out.println(mensagem);
             redirectAttributes.addFlashAttribute("mensagem", mensagem);
-            return "redirect:/estoque/ajustar";
+            return "redirect:/controle/estoque/ajustar";
         } else {
         
         
@@ -132,7 +134,7 @@ public class EstoqueController {
         estoqueRepository.save(e);
         System.out.println("Ajuste realizado com sucesso!");
         redirectAttributes.addFlashAttribute("mensagem", "Ajuste de estoque realizado com sucesso!");
-        return "redirect:/estoque";
+        return "redirect:/controle/estoque";
 
         }
         

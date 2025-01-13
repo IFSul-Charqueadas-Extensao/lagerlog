@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html th:fragment="layout (title, links, scripts, content, subnav)" xmlns:th="https://thymeleaf.org" lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:replace="${title}">Título</title>
+    <link rel="stylesheet" href="/css/estilos.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap" rel="stylesheet">
+
+    <th:block th:replace="${links}" />
+    <th:block th:replace="${scripts}" />
+</head>
+<body>
+    <header>
+        <nav th:replace="~{fragments/navbar :: navMain }"></nav>
+        <nav th:replace="${#strings.contains(currentUrl, 'controle')} ? ~{fragments/navbar :: navControle } : ~{}"></nav>
+        <nav th:replace="${#strings.contains(currentUrl, 'caixa')} ? ~{fragments/navbar :: navCaixa } : ~{}"></nav>
+        <nav th:replace="${#strings.contains(currentUrl, 'sistema')} ? ~{fragments/navbar :: navSistema } : ~{}"></nav>
+    </header>
+
+    <div th:if="${mensagem}" class="alert alert-mensagem">
+        <p th:text="${mensagem}">Alerta!</p>
+    </div>
+    <div th:if="${error}" class="alert alert-erro">
+        <p th:if="${error}"></p>
+    </div>
+    
+    <main id="container">
+        <h1 th:text="${#strings.replace(#strings.replace(title, '<title>', ''), '</title>', '')}"></h1>
+        <nav th:replace="${#strings.contains(currentUrl, 'controle/estoque')} ? ~{fragments/navbar :: navEstoque } : ~{}"></nav>
+        <nav th:replace="${#strings.contains(currentUrl, 'controle/produto')} ? ~{fragments/navbar :: navProdutos } : ~{}"></nav>
+        <nav th:replace="${#strings.contains(currentUrl, 'sistema/usuario')} ? ~{fragments/navbar :: navUsuarios } : ~{}"></nav>
+        <nav th:replace="${#strings.contains(currentUrl, 'sistema/tickets')} ? ~{fragments/navbar :: navTickets } : ~{}"></nav>
+        <div th:replace= "${content}">
+            Conteúdo
+        </div>
+    </main>
+</body>
+</html>

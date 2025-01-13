@@ -1,62 +1,59 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<html th:replace="~{fragments/layouts/mainLayout :: layout(~{::title}, ~{}, ~{}, ~{::body}, ~{fragments/navbar :: navCadastros})}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar nova mercadoria</title>
-    <link rel="stylesheet" href="/css/estilos.css">
 </head>
 
 <body>
+    
 
-    <div th:insert="~{fragments/navbar :: nav}"></div>
-    <div th:insert="~{fragments/navbarCadastros :: navCadastros}"></div>
-
-    <h2>Criar nova mercadoria</h2>
-    <form action="/produto" method="post">
+    <form action="cadastrar" method="post">
         <label for="descricao">Descrição: </label>
-        <input type="text" id="descricao" name="descricao" required></br></br>
+        <input type="text" id="descricao" name="descricao" required>
 
         <label for="marca">Marca: </label>
-        <input type="text" id="marca" name="marca" required></br></br>
+        <input type="text" id="marca" name="marca" required>
 
         <label for="fornecedor">Fornecedor: </label>
-        <input type="text" id="fornecedor" name="fornecedor" required></br></br>
+        <input type="text" id="fornecedor" name="fornecedor" required>
 
         <label for="quantidade">Quantidade de Venda: </label>
-        <input type="number" id="quantidade" name="quantidade" required></br></br>
+        <input type="number" id="quantidade" name="quantidade" required>
         
         <label for="unidade">Unidade de Cadastro: </label>
         <select id="unidade" name="unidade" required>
             <option selected="selected" value="UN">UN</option>
             <option value="L">L</option>
-        </select></br></br>
+        </select>
 
         <label for="preco">Preço: </label>
-        <input type="number" id="preco" name="preco" step="0.01" required></br></br>
+        <input type="number" id="preco" name="preco" step="0.01" required>
 
         <label for="pontoSuprimento">Ponto de Suprimento: </label>
-        <input type="number" id="pontoSuprimento" name="pontoSuprimento" required></br></br>
+        <input type="number" id="pontoSuprimento" name="pontoSuprimento" required>
 
         <label for="categoria">Categoria: </label>
         <select id="categoria" name="categoria" required>
             <option selected="selected" value="COMUM">Comum</option>
             <option value="PROMOCIONAL">Promocional</option>
-        </select></br></br>
+        </select>
 
         <label for="tickets">Tickets gerados: </label>
-        <input type="number" id="tickets" name="tickets" min="1" required></br></br>
+        <input type="number" id="tickets" name="tickets" min="1" required>
 
+        <!-- <label for="corTicket">Cor do Ticket</label>
+        <input type="color" name="corTicket" id="corTicket" value="#FFEE44"> -->
+        
         <fieldset>
             <legend>Produto ativo?</legend>
-            <label for="statusTrue">Sim </label>
-            <!-- <input type="radio" name="status" id="statusTrue" value="true" checked> -->
-            <input type="radio" name="status" id="statusTrue" value="1">
-            <label for="statusFalse">Não </label>
-            <!-- <input type="radio" name="status" id="statusFalse" value="false"> -->
+            <input type="radio" name="status" id="statusTrue" value="1" checked>
+            <label for="statusTrue">Sim</label>
             <input type="radio" name="status" id="statusFalse" value="0">
-        </fieldset></br></br>
+            <label for="statusFalse">Não</label>
+        </fieldset>
 
         <input type="submit" value="Criar">
     </form>

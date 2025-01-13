@@ -1,5 +1,7 @@
 package com.maltepuro.lagerlog.model;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Set;
 
 // import com.maltepuro.lagerlog.model.roles.UsuarioRole;
@@ -41,4 +43,32 @@ public class Usuario {
     private Set<String> grupos;
     
     private boolean status;
+
+    public String getHighestAuthority(){
+        Set<String> grupos = getGrupos();
+        
+        Map<String, Integer> grupoPriority = new HashMap<>();
+        grupoPriority.put("ROLE_ADMINISTRADOR", 1);
+        grupoPriority.put("ROLE_SUPERVISOR", 2);
+        grupoPriority.put("ROLE_OPERADOR", 3);
+
+        String highestGrupo = null;
+        int highestPriority = Integer.MAX_VALUE;
+
+        for (String grupo : grupos){
+            if (grupoPriority.containsKey(grupo) && grupoPriority.get(grupo) < highestPriority){
+                highestGrupo = grupo;
+                highestPriority = grupoPriority.get(grupo);
+            }
+        }
+
+        String highestGrupoDisplayName = highestGrupo != null
+            ? highestGrupo.replace("ROLE_", "")
+                .toLowerCase()
+                .substring(0, 1).toUpperCase()
+                + highestGrupo.substring(6).toLowerCase()
+            : "Null";
+
+        return highestGrupoDisplayName;
+    }
 }

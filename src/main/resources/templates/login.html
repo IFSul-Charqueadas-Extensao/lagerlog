@@ -1,37 +1,30 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<html th:replace="~{fragments/layouts/loginLayout :: layout(~{::title}, ~{::body})}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="/css/login.css" />
+    <link rel="stylesheet" type="text/css" href="/css/estilos.css" />
     <title>Login</title>
 </head>
 
 <body>
-    <div class="container">
+    <div id="containerLogin">
         <form th:action="@{/auth/login}" method="post">
-            <h1 class="">Lager Log</h1>
-
-            <div>
-                <input type="text" id="username" name="username" placeholder="Usuário:" required>
+            <div id="loginLogo">
+                <img src="/img/logo.png" alt="">
+                <h1>Lager Log</h1>
             </div>
 
-            <div>
-                <input type="password" id="password" name="password" placeholder="Senha:" required>
-            </div>
+            <label for="username">Usuário:</label>
+            <input type="text" id="username" name="username" required>
 
-            <div class="submit-container">
-                <input type="submit" value="Entrar">
-            </div>
-            <div>
-                <a href="signup">Primeiro Acesso</a>
-            </div>
-
-            <div class="submit-container">
-                <p th:if="!${param.erro}">Informe suas credenciais de acesso!</p>
-                <p th:if="${param.error}" style="color: red;">Credenciais inválidas. Tente novamente</p>
-            </div>
+            <label for="password">Senha:</label>
+            <input type="password" id="password" name="password" required>
+            
+            <input type="submit" value="Entrar">
+            
+            <a href="signup">Primeiro Acesso</a>
         </form>
     </div>
 </body>

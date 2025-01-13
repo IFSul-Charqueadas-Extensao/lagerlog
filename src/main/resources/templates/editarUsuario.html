@@ -1,43 +1,46 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<html th:replace="~{fragments/layouts/mainLayout :: layout(~{::title}, ~{}, ~{}, ~{::body}, ~{fragments/navbar :: navCadastros})}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Alterar Dados do Usuário</title>
-    <link rel="stylesheet" href="/css/estilos.css">
 </head>
-<div th:insert="~{fragments/navbar :: nav}"></div>
 
 <body>
-    <h2>Alterar Dados do Usuário</h2>
-    <form th:object="${usuario}" action="/usuario/editar" method="post">
+    
+
+    <form th:object="${usuario}" action="/sistema/usuario/editar" method="post">
 
         <input type="hidden" id="id" name="id" th:field="*{id}">
 
         <label for="usuario">Usuário:</label>
-        <input type="text" id="usuario" name="usuario" th:field="*{usuario}" required><br><br>
+        <input type="text" id="usuario" name="usuario" th:field="*{usuario}" required>
 
         <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" th:field="*{nome}" required><br><br>
+        <input type="text" id="nome" name="nome" th:field="*{nome}" required>
 
         <label for="grupo">Grupo:</label>
-        <select id="grupo" name="grupo" th:field="*{grupo}" required>
+        <select id="grupo" name="grupo" required>
+            <option value="" disabled selected >Selecione o grupo</option>
             <option value="Operador">Operador</option>
-            <option value="Supervisor">Supervisor</option>
-            <option value="Administrador">Administrador</option>
-        </select><br><br>
-
-        <label for="status">Status:</label>
-        <input type="checkbox" id="status" name="status" th:field="*{status}">Ativo<br><br>
-
-        <input type="checkbox" name="alterarSenha">Alterar senha<br><br>
+            <option sec:authorize="hasRole('ROLE_SUPERVISOR')" value="Supervisor">Supervisor</option>
+            <option sec:authorize="hasRole('ROLE_ADMINISTRADOR')" value="Administrador">Administrador</option>
+        </select>
 
         <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" value="***" required><br><br>
-
+        <input type="password" id="senha" name="senha" value="***" required>
+        
         <label for="novasenha">Repetir Senha:</label>
-        <input type="password" id="novasenha" value="***" required><br><br>
+        <input type="password" id="novasenha" value="***" required>
+        
+        <fieldset>
+            <legend>Usuário habilitado?</legend>
+            <input type="radio" name="status" id="statusTrue" th:field="*{status}" value="1" th:checked="${status == 1}">
+            <label for="statusTrue">Sim </label>
+            <input type="radio" name="status" id="statusFalse" th:field="*{status}" value="0" th:checked="${status == 0}">
+            <label for="statusFalse">Não </label>
+        </fieldset>
 
         <input id="btnAtualizar" type="submit" value="Alterar">
     </form>
