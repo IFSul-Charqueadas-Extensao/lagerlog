@@ -63,6 +63,7 @@ public class AuthController {
             usuario.setUsuario(username);
             usuario.setSenha(passwordEncoder.encode(password));
             usuario.setNome(displayname);
+            usuario.setStatus(true);
             usuario.setGrupos(Set.of("ROLE_ADMINISTRADOR", "ROLE_SUPERVISOR", "ROLE_OPERADOR"));
             usuarioRepository.save(usuario);
             
@@ -71,29 +72,4 @@ public class AuthController {
         
         return "signup";
     }
-    
-
-
-    
-    
-    // @PostMapping("/login")
-    // public String authenticate(Authentication authentication) {
-    //     return authenticationService.authenticate(authentication);
-    // }
-
-    // @PostMapping("/login")
-    // public ResponseEntity<Void> authenticate(@RequestBody LoginRequest loginRequest) {
-    //     Authentication authenticationRequest = UsernamePasswordAuthenticationToken.unauthenticated(loginRequest.username(), loginRequest.password());
-    //     Authentication autnheticationResponse = this.authenticationManager.authenticate(authenticationRequest);
-    //             return null;
-    // }
-
-    // public record LoginRequest(String username, String password) {
-    // }
-
-    // @PostMapping("/login")
-    // public String authenticate(@RequestParam String username, @RequestParam String password){
-    //     // Authentication authentication = new Authentication()
-    //     return authenticationService.authenticate(authentication);
-    // }
 }

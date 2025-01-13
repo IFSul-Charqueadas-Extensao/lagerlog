@@ -30,17 +30,22 @@ public class IndexController {
         List<Produto> produtosStatusAtivos = produtosRepository.findByStatus(1);
         Produto[] arrayProdutosStatusAtivos = produtosStatusAtivos.toArray(new Produto[0]);
         model.addAttribute("produtosAtivos", arrayProdutosStatusAtivos);
-        return "home";
+        return "index/home";
     }
 
-    @RequestMapping("/cadastros")
-    public String cadastros() {
-        return "cadastros";
+    @RequestMapping("/controle")
+    public String getControle() {
+        return "index/controle";
     }
 
     @RequestMapping("/caixa")
-    public String caixa(){
-        return "caixa";
+    public String getCaixa(){
+        return "index/caixa";
+    }
+
+    @RequestMapping("/sistema")
+    public String getSistema(){
+        return "index/sistema";
     }
 
 }

@@ -1,6 +1,7 @@
 package com.maltepuro.lagerlog.model;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,5 +32,13 @@ public class Estoque {
     private double quantidade;
     private LocalDateTime dataCadastro;
     private String observacao;
+
+    public String dateConverter(LocalDateTime localDateTime){
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+        String formattedDateTime = localDateTime.format(formatter);
+
+        return formattedDateTime;
+    }
 
 }

@@ -20,7 +20,7 @@ import com.maltepuro.lagerlog.repository.VendaRepository;
 
 
 @Controller
-@RequestMapping("/venda")
+@RequestMapping("caixa/venda")
 public class VendasController {
 
     @Autowired

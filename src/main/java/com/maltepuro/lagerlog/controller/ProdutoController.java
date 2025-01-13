@@ -13,15 +13,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
+
+@RequestMapping("/controle/produto")
 @Controller
-@RequestMapping("/produto")
 public class ProdutoController {
     @Autowired
     private ProdutoRepository produtoRepository;
-
-    @PostMapping
-    public String incluir(
+    @PostMapping("/cadastrar")
+    public String postProduto(
             @RequestParam String descricao,
             @RequestParam String marca,
             @RequestParam String fornecedor,
@@ -48,10 +50,10 @@ public class ProdutoController {
         produtoRepository.save(p);
         System.out.println("Produto cadastrado com sucesso!");
         redirectAttributes.addFlashAttribute("mensagem", "Produto cadastrado com sucesso!");
-        return "redirect:/produto/listar";
+        return "redirect:/controle/produto";
     }
 
-    @GetMapping("/listar")
+    @GetMapping
     public String listar(Model model) {
         List<Produto> produtos = produtoRepository.findAll();
         Produto[] arrayProdutos = produtos.toArray(new Produto[0]);
@@ -102,7 +104,7 @@ public class ProdutoController {
         produtoRepository.save(p);
         System.out.println("Produto editado com sucesso!");
         redirectAttributes.addFlashAttribute("mensagem", "Produto editado com sucesso!");
-        return "redirect:/produto/listar";
+        return "redirect:controle/produto";
     }
 
     @DeleteMapping("/{id}")

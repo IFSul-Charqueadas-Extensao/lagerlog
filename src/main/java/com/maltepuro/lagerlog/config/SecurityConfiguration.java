@@ -34,22 +34,45 @@ public class SecurityConfiguration {
     private RSAPublicKey key;
     @Value("${jwt.private.key}")
     private RSAPrivateKey priv;
+    
+    private static final String [] ENDPOINTS_RECURSOS = {
+        "/css/**",
+        "/js/**",
+        "/img/**",
+        "favicon.ico"
+    };
 
+    private static final String [] ENDPOINTS_BASE = {
+        "/",
+        "/auth/**",
+        "/error"
+    };
+
+    private static final String [] ENDPOINTS_OPERADOR = {
+        "/produto/listarProdutos"
+    };
+
+    private static final String [] ENDPOINTS_SUPERVISOR = {
+        "/cadastros",
+        "/produto/**",
+        "/usuario/**",
+        "/estoque/**"
+    };
+
+    private static final String [] ENDPOINTS_ADMINISTRADOR = {
+
+    };
+    
     @Bean
     SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         http
             .csrf(csrf -> csrf.disable())
             // .cors(cors -> cors.disable())
             .formLogin(formLogin -> formLogin
-                // .authenticationManager(authenticationManager)
-                // .securityContextRepository(securityContextRepository)
-            
                 .loginProcessingUrl("/auth/login")
                 .loginPage("/auth/login")
                 .failureUrl("/auth/login/failure")
                 .defaultSuccessUrl("/auth/login/success", true)
-                // .successForwardUrl("/auth/login/success")
-                .permitAll()
             )
             .logout(logout -> logout
                 .logoutUrl("/auth/logout")
@@ -61,11 +84,13 @@ public class SecurityConfiguration {
             )
             .authorizeHttpRequests(auth -> auth
                 .dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                .requestMatchers("/css/**", "/js/**", "/favicon.ico").permitAll()
-                .requestMatchers("/h2-console", "/h2-console/**").permitAll()
+                .requestMatchers(ENDPOINTS_RECURSOS).permitAll()
                 .requestMatchers("/").permitAll()
                 .requestMatchers("/auth/**").permitAll()
                 .requestMatchers("/error").permitAll()
+                .requestMatchers(ENDPOINTS_OPERADOR).hasRole("OPERADOR")
+                .requestMatchers(ENDPOINTS_SUPERVISOR).hasRole("SUPERVISOR")
+                .requestMatchers(ENDPOINTS_ADMINISTRADOR).hasRole("ADMINISTRADOR")
                 .anyRequest().authenticated()
                 // .anyRequest().permitAll()
                 

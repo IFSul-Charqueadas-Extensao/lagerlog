@@ -34,6 +34,10 @@ public class UsuarioDetails implements UserDetails {
         return usuario.getUsuario();
     }
 
+    public String getDisplayName() {
+        return usuario.getNome();
+    }
+
     @Override
     public boolean isAccountNonExpired() {
         return true;
@@ -51,7 +55,7 @@ public class UsuarioDetails implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return usuario.isStatus();
     }
 
 }

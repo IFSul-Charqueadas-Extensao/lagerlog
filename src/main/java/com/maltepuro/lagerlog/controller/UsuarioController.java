@@ -25,7 +25,7 @@ import java.util.Set;
 import org.springframework.ui.Model;
 
 @Controller
-@RequestMapping("/usuario")
+@RequestMapping("sistema/usuario")
 public class UsuarioController {
 
     @Autowired //injetar repositório automaticamente, em vez de criar uma instância dele manualmente.
@@ -34,8 +34,8 @@ public class UsuarioController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    @PostMapping
-    public String incluir(@RequestParam String usuario,
+    @PostMapping("cadastrar")
+    public String cadastrar(@RequestParam String usuario,
                         @RequestParam String nome, 
                         @RequestParam String senha, 
                         @RequestParam String grupo,
@@ -62,10 +62,10 @@ public class UsuarioController {
         usuarioRepository.save(novoUsuario);
         System.out.println("Usuário cadastrado com sucesso!");
         redirectAttributes.addFlashAttribute("mensagem", "Usuário cadastrado com sucesso!");
-        return "redirect:/usuario/listar";
+        return "redirect:/sistema/usuario";
     }
 
-    @GetMapping("/listar")
+    @GetMapping()
     public String listar(Model model){
         List<Usuario> usuarios = usuarioRepository.findAll();
         Usuario[] arrayUsuarios = usuarios.toArray(new Usuario[0]);
@@ -108,7 +108,7 @@ public class UsuarioController {
         usuarioRepository.save(u);
         System.out.println("Usuário editado com sucesso!");
         redirectAttributes.addFlashAttribute("mensagem", "Usuário editado com sucesso!");
-        return "redirect:/usuario/listar";
+        return "redirect:/sistema/usuario";
     }
 
     @DeleteMapping("/{id}")
@@ -116,7 +116,7 @@ public class UsuarioController {
         try {
             usuarioRepository.deleteById(id);
             System.out.println("Usuário excluido com sucesso!");
-            return ResponseEntity.ok().build(); // Retorna 200 OK           
+            return ResponseEntity.ok().build(); // Retorna 200 OK
         } catch (Exception e) {
             System.out.println("Erro ao excluir o usuário!");
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao excluir usuário: " + e.getMessage());

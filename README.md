@@ -1,28 +1,30 @@
 # 🍺 Lagerlog
 
 Sistema de administração de vendas.
+
 Em resumo o sistema é capaz de realizar um relatório de vendas, administração de estoque, cadastrar produtos. 
 
 ## Requisitos
 * Java JDK 17 (com JAVA_HOME definido)
 * (Usando VSCode) Extensão Spring Boot Dashboard
 * Software Git para controle de versão e gerenciamento de código-fonte
+* OpenSSL ou outra ferramenta para gerar chaves
  
 ## Rodando o projeto
 1. Clone o repositório.
 2. Crie um par de chaves pública e privada em src/main/resources.
-```bash
-openssl genrsa -out app.key
-openssl rsa -in app.key -pubout -out app.pub
-```
+   ```bash
+   openssl genrsa -out app.key
+   openssl rsa -in app.key -pubout -out app.pub
+   ```
 3. Rode o projeto com o Maven embutido.
-```bash
-# Windows
-mvnw spring-boot:run
+   ```bash
+   # Windows
+   mvnw spring-boot:run
 
-# Linux
-./mvnw spring-boot:run
-```
+   # Linux
+   ./mvnw spring-boot:run
+   ```
 4. O projeto estará rodando em http://localhost:8080/
 
 ## Como trabalhar com o repositório forkado do GitHub no VS Code
@@ -85,19 +87,19 @@ mvnw spring-boot:run
    git commit -m "Descrição das alterações"
    ```
 5. Enviar alterações para o GitHub:
-  ```bash
-  git push origin main
-  ```
+   ```bash
+   git push origin main
+   ```
 
 6. Buscar atualizações do repositório original:
-  ```bash
-  git fetch upstream
-  ```
+   ```bash
+   git fetch upstream
+   ```
 
 7. Mesclar atualizações do repositório original:
-  ```bash
-  git merge upstream/main
-  ```
+   ```bash
+   git merge upstream/main
+   ```
 
 8. IMPORTANTE - Necessário realizar o `Create Pull Request` via Navegador Web no GitHub
 - Acesse o GitHub e vá para o seu repositório forkeado;

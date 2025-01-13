@@ -1,39 +1,36 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="pt-br">
+<html th:replace="~{fragments/layouts/mainLayout :: layout(~{::title}, ~{}, ~{}, ~{::body}, ~{fragments/navbar :: navCadastros})}">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Criar Novo Usuário</title>
-    <link rel="stylesheet" href="/css/estilos.css">
 </head>
 
 <body>
+    
 
-    <div th:insert="~{fragments/navbar :: nav}"></div>
-
-    <h2>Criar Novo Usuário</h2>
-    <form action="/usuario" method="post">
+    <form action="cadastrar" method="post">
 
         <label for="nome">Usuário de acesso:</label>
-        <input type="text" id="usuario" name="usuario" required><br><br>
+        <input type="text" id="usuario" name="usuario" required>
 
         <label for="nome">Nome:</label>
-        <input type="text" id="nome" name="nome" required><br><br>
+        <input type="text" id="nome" name="nome" required>
 
         <label for="grupo">Grupo:</label>
         <select id="grupo" name="grupo" required>
-            <option value="">Selecione o grupo</option>
+            <option value="" disabled selected >Selecione o grupo</option>
             <option value="Operador">Operador</option>
-            <option value="Supervisor">Supervisor</option>
-            <option value="Administrador">Administrador</option>
-        </select><br><br>
+            <option sec:authorize="hasRole('ROLE_SUPERVISOR')" value="Supervisor">Supervisor</option>
+            <option sec:authorize="hasRole('ROLE_ADMINISTRADOR')" value="Administrador">Administrador</option>
+        </select>
 
         <label for="senha">Senha:</label>
-        <input type="password" id="senha" name="senha" required><br><br>
+        <input type="password" id="senha" name="senha" required>
 
         <label for="senha">Repetir Senha:</label>
-        <input type="password" required><br><br>
+        <input type="password" required>
 
         <input type="submit" value="Criar">
     </form>

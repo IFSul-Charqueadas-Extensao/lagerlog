@@ -1,33 +1,160 @@
+:root {
+    --background: rgb(240, 240, 240);
+    --foreground: rgb(32, 32, 18);
+
+    --muted: hsl(from var(--background) h s calc(l + 5));
+    --muted-foreground: rgb(100, 116, 139);
+
+    --border: rgb(60, 40, 20);
+
+    --input: rgb(230, 222, 210);
+    
+    --primary: #fbe80a;
+    --primary-foreground: rgb(64, 64, 32);
+
+    --secondary: rgb(40, 40, 30);
+    --secondary-foreground: rgb(255, 250, 244);
+
+    --accent: #f9be00;
+    --accent-foreground: rgb(46, 34, 0);
+
+    --success: hsl(120, 75.00%, 75.00%);
+    --failure: hsl(0, 75.00%, 75.00%);
+
+    --radius: 1rem;
+}
+
 /* --------------------------- ESTILO GERAL ----------------------------------- */
 body {
     margin: 0;
     padding: 0;
-    background-color: #D9D9D9; /* Cor de fundo para o resto da página */
+    height: 100%;
+    min-height: 100vh;
+    background: linear-gradient(var(--background), var(--muted) );
+    background-attachment: fixed;
+    color: var(--foreground);
+    font-family: "Lato", sans-serif;
+    font-weight: 400;
+    font-style: normal;
 }
 
-/* --------------------------- BOTÕES DE NAVEGAÇÃO --------------------------- */
-.nav-btn {
-    background-color: #F4EC29;
-    color: black;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 135px;
+h1 {
+    background: linear-gradient(to right, var(--primary), hsl(from var(--primary) calc(h - 3) calc(s + 2) calc(l - 2)));
+    margin-top: 0;
+    margin-bottom: 8px;
+    padding: 10px;
+    text-align: center;
+    font-size: 20px;
+    align-items: center;
+    height: 30px;
+}
+
+.btn-active {
+    background-color: var(--accent) !important;
+}
+
+/* --------------------------- NAVEGAÇÃO --------------------------------------- */
+nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    gap: 16px;
+    height: 48px;
+}
+
+.nav-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    gap: 16px;
+    width: 100%;
+    margin: 0 32px;
+}
+
+#navMain .nav-buttons {
+    flex: 1;
+}
+
+#nav-usuario {
+    flex: 0 1 20%;
+    gap: 16px;
+}
+
+#nav-usuario span {
+    display: inline-block;
+    width: 128px;
+    margin-left: 8px;
+    font-weight: 800;
+    color: var(--secondary-foreground);
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+#nav-usuario a {
+}
+
+
+#navMain {
+    background: linear-gradient(hsl(from var(--secondary) h s calc(l + 3)) 0%, var(--secondary) 30%);
+}
+
+#navSecondary {
+    background-color: var(--primary);
+    margin: 0 auto;
+    max-width: 1280px;
+    border-bottom-right-radius: var(--radius);
+    border-bottom-left-radius: var(--radius);
+}
+
+#navTertiary {
+    background-color: var(--secondary);
+}
+
+nav a {
+    flex: 100%;
+
+    padding: 8px 16px;
+    
+    border-radius: var(--radius);
+    
+    font-weight: 600;
+    font-size: 16px;
+    
+    height: 16px;
+    line-height: 16px;
+
     text-align: center;
     text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
+
     cursor: pointer;
 }
 
-.nav-btn:hover {
-    background-color: #FBB48D; 
-    color: black; 
+#navMain a {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    text-transform: uppercase;
+}
+
+#navSecondary a{
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+}
+
+#navTertiary a{
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+}
+
+#navMain a:hover, #navSecondary a:hover, #navTertiary a:hover {
+    background-color: var(--accent); 
+    color: var(--accent-foreground);
 }
 
 /* --------------------------- BARRAS DE TÍTULO ---------------------------- */
 .title-bar {
-    background-color: #F4EC29;
+    background-color: var(--primary);
     padding: 10px;
     text-align: center;
     font-size: 20px;
@@ -36,38 +163,30 @@ body {
     height: 30px;
 }
 
-.navbar {
-    background-color: #333;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 50px;
-}
-
-.title-bar-caixa, .title-bar-cad {
-    margin-top: 3px;
-    padding: 6px;
-    background-color: #F4EC29;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-}
-
 /* --------------------------- CONTAINERS GERAIS ---------------------------- */
-.container-quadro-tickes {
+#container {
+    margin: 16px auto;
+    max-width: 1280px;
+    padding: 8px;
+    background-color: var(--muted);
+}
+
+.container-quadro-tickets {
     display: flex;
     height: calc(100vh - 100px); /* Ajuste da altura da página */
     align-items: flex-start;
     padding: 10px;
     overflow: hidden; /* Para evitar que os elementos se sobreponham */
+    display: none;
 }
 
 .container-geral-tickets {
-    display: flex;
+    /* display: flex;
     flex-wrap: wrap;
     width: 85%;
     padding: 10px;
-    background-color: #D9D9D9;
+    background-color: var(--background); */
+    display: none;
 }
 
 .container-geral-tickets button {
@@ -90,9 +209,13 @@ body {
     background-color: white;
 }
 
+#ticketsContainer {
+    display: flex;
+    flex-direction: row;
+}
+
 /* --------------------------- CENTRALIZAÇÃO ---------------------------- */
 .centralizar {
-    flex: 1; /* Ocupa o espaço restante */
     text-align: center; /* Centraliza o texto */
 }
 
@@ -104,42 +227,22 @@ body {
 
 .pesquisar-input {
     padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 20px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
     flex: 1;
     margin-right: 10px;
 }
 
 .btn-pesquisar {
-    background-color: #F4EC29;
+    background-color: var(--primary);
     color: white;
     border: none;
-    border-radius: 20px;
+    border-radius: var(--radius);
     padding: 10px 20px;
     text-align: center;
     text-decoration: none;
     display: inline-block;
     font-size: 16px;
-}
-
-/* --------------------------- BOTÕES CAIXA E CADASTRO ---------------------------- */
-.nav-btn-caixa, .nav-btn-cad {
-    background-color: black;
-    color: white;
-    border: none;
-    border-radius: 20px;
-    padding: 10px 135px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
-
-.nav-btn-cad:hover, .nav-btn-caixa:hover {
-    background-color: #FBB48D; 
-    color: white; 
 }
 
 /* --------------------------- CARRINHO ----------------------------------- */
@@ -149,7 +252,8 @@ body {
     right: 0;
     width: 20%; /* A largura do carrinho */
     max-height: calc(100vh - 100px); /* Ocupa toda a altura da página */
-    background-color: #a49a9c;
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
     overflow-y: auto; /* Permite rolagem vertical quando necessário */
     padding: 20px;
 }
@@ -166,8 +270,10 @@ body {
 
 #filtroPrecosContainer {
     display: flex;
+    flex: 0 0 70%;
     flex-wrap: wrap; /* Permite que os botões quebrem linha quando necessário */
     justify-content: center; /* Centraliza os botões no container */
+    align-content: baseline;
     gap: 10px; /* Espaçamento entre os botões */
     width: 100%; /* Ocupa toda a largura disponível */
     margin-left: 10px;
@@ -179,12 +285,75 @@ body {
     float: right; /* Para permitir que o carrinho fique ao lado */
 }
 
+#carrinho {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 8px;
+    width: 20%;
+    min-width: 
+    /* min-height: 600px; */
+    max-height: calc(100vh - 100px);
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+    padding: 20px;
+}
+
+#btnCarrinho {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    gap: 8px;
+}
+
+.btnCarrinho {
+    flex: 1;
+    background-color: var(--primary);
+    font-weight: 500;
+    color: var(--primary-foreground);
+    border: none;
+    border-radius: var(--radius);
+    padding: 2px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    margin-top: 4px;
+    margin-right: 4px;
+    min-width: 64px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.buttonCarrinho button {
+    background-color: var(--secondary);
+    font-weight: 500;
+    color: var(--secondary-foreground);
+    border: none;
+    border-radius: var(--radius);
+    padding: 2px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    margin: 0px 8px;
+    min-width: 64px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+
 /* --------------------------- DETALHES DO PRODUTO ---------------------------- */
 .detalhes-produto { /* JS */
-    background-color: #cac372;
-    border: 2px solid #000000;
+    display: flex
+    flex-direction: column;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    border: 2px solid var(--border);
     margin-bottom: 2px;
-    height: 80px;
+    max-height: 128px;
 }
 
 .pSemEspaco { /* JS */
@@ -194,7 +363,6 @@ body {
 
 .buttonCarrinho { /* JS */
     display: flex;
-    flex-wrap: wrap;
     justify-content: space-evenly;
     align-items: center;
 }
@@ -209,51 +377,76 @@ div .qtdUnit, div .estoqueCar { /* JS */
 
 /* --------------------------- TICKETS ----------------------------------- */
 .ticket {
-    margin: 5px;
-    width: 60px;  /* Largura menor */
-    height: 120px;  /* Maior altura */
+    --size: 128px;
+    gap: 20px;
+    width: calc(var(--size) * 2);
+    height: var(--size);
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #F4EC29;
-    color: black;
-    font-size: 18px;
-    font-weight: bold;
-    border-radius: 10px;  /* Arredondar os cantos */
-    border: 2px solid #000000;
+    background-color: var(--primary);
+    color: var(--foreground);
+    font-size: 16px;
+    font-weight: 600;
+    border: 1px solid;
+    border-top: 1px dashed;
+    border-bottom: 1px dashed;
+    border-color: var(--border);
+    transition: all .2s;
 }
 
 .ticket:hover {
-    background-color: #FBB48D;
+    /* border-color: var(--accent); */
     cursor: pointer;
+    transform: rotate(-0.004turn);
+}
+
+.ticket>.ticketLogo {
+    flex: 0 0 30%;
+    margin: 4px;
+}
+
+.ticket>.ticketLogo>img {
+    width: 100%;
+    height: auto;
+    filter: invert(1) brightness(0);
+}
+
+.ticket>.ticketText {
+    flex: 1;
+}
+
+.ticket>.ticketText>p {
+    margin: 0;
+    display: block;
 }
 
 
 /* --------------------------- MODAL MODO DE COMPRA ---------------------------- */
 .modal {
-    display: none; 
-    position: fixed; 
-    z-index: 1; 
+    display: none;
+    position: fixed;
+    z-index: 1;
     left: 0;
     top: 0;
-    width: 100%; 
-    height: 100%; 
-    overflow: auto; 
-    background-color: rgb(0,0,0); 
-    background-color: rgba(0,0,0,0.4); 
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.4);
     padding-top: 60px;
+    transition: all .2s ease-out;
 }
 
 .modal-content {
-    background-color: #cdca6b;
-    margin: 10% auto; 
-    padding: 40px;
-    border: 1px solid #888;
-    width: 20%; 
+    background-color: var(--primary);
+    margin: 10% auto;
+    padding: 8px;
+    border: 1px solid var(--border);
+    width: 20%;
 }
 
 .close {
-    color: #aaa;
+    color: var(--primary--foreground);
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -261,7 +454,248 @@ div .qtdUnit, div .estoqueCar { /* JS */
 
 .close:hover,
 .close:focus {
-    color: black;
+    color: var(--foreground);
     text-decoration: none;
     cursor: pointer;
+}
+
+#produtosModalContainer button {
+    background-color: var(--secondary);
+    font-weight: 500;
+    color: var(--secondary-foreground);
+    border: none;
+    border-radius: var(--radius);
+    padding: 2px 8px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    margin: 0px 8px;
+    min-width: 64px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+/* ---------------------------  TABELAS ---------------------------------------- */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground)
+}
+
+tr:nth-child(even) {
+    background-color: var(--background);
+}
+
+tr:nth-child(odd) {
+    background-color: hsl(from var(--background) h s calc(l + 5));
+}
+
+tr:hover {
+    background-color: var(--accent);
+}
+
+tr.baixo-estoque {
+    background-color: #ffcccb;
+}
+
+tr.sem-estoque-venda{
+    background-color: #e72e2b;
+}
+
+td>button {
+    background-color: var(--secondary);
+    font-weight: 500;
+    color: var(--secondary-foreground);
+    border: none;
+    border-radius: var(--radius);
+    padding: 2px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 12px;
+    height: 24px;
+    margin: 0px 8px;
+    min-width: 64px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+/* ---------------------------- FORMULARIOS ------------------------------------ */
+form {
+    margin: 0 auto;
+}
+
+form>label, fieldset>legend {
+    font-weight: 300;
+    display:block;
+    color: var(--foreground);
+    margin-bottom: 8px;
+}
+
+fieldset>label {
+    font-weight: 300;
+    margin-right: 16px;
+}
+
+fieldset>input[type="radio"]:checked+label {
+    font-weight: 800;
+}
+
+
+form>input, form>select, form>textarea {
+    background-color: hsl(from var(--primary) h calc(s - 5) calc(l + 24));
+    color: var(--primary-foreground);
+    font-family: inherit;
+    box-shadow: none;
+    border: 1px solid var(--border);
+    border-bottom-width: 3px;
+    border-radius: var(--radius);
+    width: 100%;
+    padding: 8px 16px;
+    line-height: normal;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    white-space: nowrap;
+    box-sizing: border-box;
+    transition: all .2s ease-out;
+    margin-bottom: 16px;
+}
+
+form>input:focus, form>select:focus, form>textarea:focus, form>fieldset:hover {
+    outline: none;
+    border-color: var(--accent);
+}
+
+form>input[type=submit] {
+    margin-top: 16px;
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+    border: 1px solid var(--border);
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+form>input[type=submit]:hover {
+    background-color: hsl(from var(--secondary) h calc(s - 5) calc(l + 12));
+}
+
+form>input[type=submit]:active {
+    background-color: hsl(from var(--secondary) h calc(s + 5) calc(l - 24));
+}
+
+form>fieldset {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: initial
+}
+
+/* ---------------------------- ALERTAS ---------------------------------------- */
+.alert {
+    margin: 16px 128px;
+    padding: 8px 16px;
+}
+
+.alert p {
+    margin: 0;
+}
+
+.alert-mensagem {
+    background-color: var(--success);
+    color: hsl(from var(--success) h s calc(l * 0.35));
+    border: 1px solid hsl(from var(--success) h s calc(l * 0.5))
+}
+
+.alert-erro {
+    background-color: var(--failure);
+    color: hsl(from var(--failure) h s calc(l * 0.35));
+    border: 1px solid hsl(from var(--failure) h s calc(l * 0.5))
+}
+
+/* ---------------------------- LOGIN ----------------------------------------- */
+#login {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+#containerLogin {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    margin: 0 auto;
+    padding: 16px 24px;
+    min-width: 20%;
+    max-width: 25%;
+    min-height: 50%;
+    max-height: 100%;
+    border: 1px solid var(--border);
+    border-bottom-width: 3px;
+}
+
+#containerLogin>form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100%;
+}
+
+#containerLogin h1 {
+    flex-grow: 1.2;
+    align-content: center;
+    margin-top: 0;
+    background: none;
+    font-size: 36px;
+}
+
+#containerLogin a {
+    background-color: var(--secondary);
+    color: var(--secondary-foreground);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    width: 100%;
+    padding: 8px 16px;
+    box-sizing: border-box;
+    font-weight: 600;
+    font-size: 14px;
+    text-align: center;
+    text-transform: uppercase;
+    text-decoration: none;
+    display: inline-block;
+}
+
+#containerLogin>form>input[type=text], #containerLogin>form>input[type=password] {
+    background-color: var(--muted);
+    color: var(--muted-foreground);
+}
+
+#loginLogo {
+    align-content: center;
+    text-align: center;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+#loginLogo img {
+    width: 50%;
+    padding: 16px;
+    background-color: var(--secondary);
+    border-radius: 100%;
 }
